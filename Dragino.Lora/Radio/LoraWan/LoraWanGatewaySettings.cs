@@ -6,7 +6,7 @@
         {
             public static readonly LoraWanGatewaySettings Europe868 = new LoraWanGatewaySettings(868100000, SpreadingFactor.SF7, new[] { "40.114.249.243", "router.eu.thethings.network" });
             public static readonly LoraWanGatewaySettings Europe433 = new LoraWanGatewaySettings(433000000, SpreadingFactor.SF7, new[] { "40.114.249.243", "router.eu.thethings.network" });
-            public static readonly LoraWanGatewaySettings UnitedStates = new LoraWanGatewaySettings(915000000, SpreadingFactor.SF7, new[] { "40.114.249.243", "router.us.thethings.network" });
+            public static readonly LoraWanGatewaySettings UnitedStates = new LoraWanGatewaySettings(915000000, SpreadingFactor.SF7, new[] { "router.us.thethings.network" });
         }
 
         public LoraWanGatewaySettings(
