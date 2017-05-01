@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B01A9146-6B59-457E-8D53-B2FAFEA99F73}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dragino</RootNamespace>
+    <AssemblyName>Dragino.Lora</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Radio\BandWidth.cs" />
+    <Compile Include="Radio\CodingRate.cs" />
+    <Compile Include="Radio\IPins.cs" />
+    <Compile Include="Radio\LoraTransceiver.cs" />
+    <Compile Include="Radio\Pins.cs" />
+    <Compile Include="Radio\RadioModemKind.cs" />
+    <Compile Include="Support\CrcCalculator.cs" />
+    <Compile Include="Support\CrcParams.cs" />
+    <Compile Include="Radio\LoraSyncWord.cs" />
+    <Compile Include="Radio\ReceivedMessage.cs" />
+    <Compile Include="Radio\ReceivedMessageEventArgs.cs" />
+    <Compile Include="Radio\LoraWan\GatewayEui.cs" />
+    <Compile Include="Gps\FixedPositionProvider.cs" />
+    <Compile Include="Gps\GpsManager.cs" />
+    <Compile Include="Gps\GpsManagerFactory.cs" />
+    <Compile Include="Gps\GpsManagerSettings.cs" />
+    <Compile Include="Gps\GpsMessageEventArgs.cs" />
+    <Compile Include="Gps\GpsMessageHandler.cs" />
+    <Compile Include="Gps\GpsMessageSerializer.cs" />
+    <Compile Include="Gps\IPositionProvider.cs" />
+    <Compile Include="Gps\IGpsManager.cs" />
+    <Compile Include="Gps\Messages\GpsMessage.cs" />
+    <Compile Include="Gps\Messages\PmtkMessages.cs" />
+    <Compile Include="Gps\Messages\Standard\GgaFixStatus.cs" />
+    <Compile Include="Gps\Messages\Standard\GgaStandardGpsMessage.cs" />
+    <Compile Include="Gps\Messages\Standard\GllStandardGpsMessage.cs" />
+    <Compile Include="Gps\Messages\Standard\GpsPositioningMode.cs" />
+    <Compile Include="Gps\Messages\Standard\GpsValueParser.cs" />
+    <Compile Include="Gps\Messages\Standard\GsaFixStatus.cs" />
+    <Compile Include="Gps\Messages\Standard\GsaMode.cs" />
+    <Compile Include="Gps\Messages\Standard\GsaStandardGpsMessage.cs" />
+    <Compile Include="Gps\Messages\Standard\GsvStandardGpsMessage.cs" />
+    <Compile Include="Gps\Messages\Standard\RmcStandardGpsMessage.cs" />
+    <Compile Include="Gps\Messages\Standard\SatelliteInView.cs" />
+    <Compile Include="Gps\Messages\Standard\StandardGpsMessage.cs" />
+    <Compile Include="Gps\Messages\Standard\StandardGpsMessageConverter.cs" />
+    <Compile Include="Gps\Messages\Standard\TextMessageSeverity.cs" />
+    <Compile Include="Gps\Messages\Standard\TxtStandardGpsMessage.cs" />
+    <Compile Include="Gps\Messages\Standard\VtgStandardGpsMessage.cs" />
+    <Compile Include="Gps\MovementData.cs" />
+    <Compile Include="Gps\MovementDataEventArgs.cs" />
+    <Compile Include="Gps\PositionData.cs" />
+    <Compile Include="Gps\PositionDataEventArgs.cs" />
+    <Compile Include="Gps\SimplePosition.cs" />
+    <Compile Include="Gps\StandardGpsMessageEventArgs.cs" />
+    <Compile Include="Gps\StandardGpsMessageKind.cs" />
+    <Compile Include="Radio\LoraWan\ILoraWanGateway.cs" />
+    <Compile Include="Support\ISpiComm.cs" />
+    <Compile Include="Support\ISpiDevice.cs" />
+    <Compile Include="Radio\ITransceiver.cs" />
+    <Compile Include="Radio\LoraWan\LoraWanGateway.cs" />
+    <Compile Include="Radio\LoraWan\LoraWanGatewayFactory.cs" />
+    <Compile Include="Radio\LoraWan\LoraWanGatewaySettings.cs" />
+    <Compile Include="Radio\RegisterAttribute.cs" />
+    <Compile Include="Radio\RegisterConstructorInfo.cs" />
+    <Compile Include="Radio\TransceiverPinSettings.cs" />
+    <Compile Include="Radio\LoraWan\Network\LoraNetworkClient.cs" />
+    <Compile Include="Radio\LoraWan\Network\MessageComposer.cs" />
+    <Compile Include="Radio\LoraWan\Network\Messages\RxpkMessage.cs" />
+    <Compile Include="Radio\LoraWan\Network\Messages\StatMessage.cs" />
+    <Compile Include="Radio\LoraWan\Network\JsonSerializer.cs" />
+    <Compile Include="Radio\LoraWan\Network\SendMessageKind.cs" />
+    <Compile Include="Radio\Transceiver.cs" />
+    <Compile Include="Radio\TransceiverFactory.cs" />
+    <Compile Include="Radio\TransceiverSettings.cs" />
+    <Compile Include="Support\MacAddressToGatewayEui.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Radio\RegisterManager.cs" />
+    <Compile Include="Radio\Register.cs" />
+    <Compile Include="Support\SpiCommController.cs" />
+    <Compile Include="Radio\SpreadingFactor.cs" />
+    <Compile Include="Radio\Transceivers\SX1276Registers.cs" />
+    <EmbeddedResource Include="Properties\Dragino.Lora.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsIoT, Version=10.0.14393.0">
+      <Name>Windows IoT Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

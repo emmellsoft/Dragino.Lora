@@ -1,0 +1,8 @@
+﻿<Application
+    x:Class="Dragino.Lora.Demo.P2P.Receiver.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Dragino.Lora.Demo.P2P.Receiver"
+    RequestedTheme="Light">
+
+</Application>

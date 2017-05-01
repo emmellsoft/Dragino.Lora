@@ -1,0 +1,660 @@
+<Registers namespace="Dragino.Lora.Transceivers">
+
+  <RegisterGroup prefix="Common">
+
+    <Register name="Fifo" address="0x00" length="1" description="FIFO read/write access.">
+      <Number name="Value" bits="0-7" default="0x00"/>
+    </Register>
+
+    <Register name="OpMode" address="0x01" description="Operating mode &amp; LoRa / FSK selection.">
+
+      <Enum name="LongRangeMode" bits="7" description="This bit can be modified only in Sleep mode. A write operation on other device modes is ignored.">
+        <Value value="0x0" name="FskOokMode" description="FSK/OOK Mode." isDefault="true"/>
+        <Value value="0x1" name="LoRaMode" description="LoRa Mode."/>
+      </Enum>
+
+      <Enum name="AccessSharedReg" bits="6" description="This bit operates when device is in Lora mode; if set it allows access to FSK registers page located in address space (0x0D:0x3F) while in LoRa mode.">
+        <Value value="0x0" name="AccessLoRaRegisterPage" description="Access LoRa registers page 0x0D: 0x3F."/>
+        <Value value="0x1" name="AccessFskRegisterPage" description="Access FSK registers page (in mode LoRa) 0x0D: 0x3F." isDefault="true"/>
+      </Enum>
+
+      <Enum name="LowFrequencyModeOn" bits="3" description="Access Low Frequency Mode registers.">
+        <Value value="0x0" name="HighFrequencyMode" description="High Frequency Mode (access to HF test registers)." isDefault="true"/>
+        <Value value="0x1" name="LowFrequencyMode" description="Low Frequency Mode (access to LF test registers)."/>
+      </Enum>
+
+      <Enum name="DeviceMode" bits="0-2" description="Device modes.">
+        <Value value="0x0" name="Sleep" description="SLEEP."/>
+        <Value value="0x1" name="StandBy" description="STDBY." isDefault="true"/>
+        <Value value="0x2" name="FrequencySynthesisTx" description="Frequency synthesis TX (FSTX)."/>
+        <Value value="0x3" name="Transmit" description="Transmit (TX)."/>
+        <Value value="0x4" name="FrequencySynthesisRx" description="Frequency synthesis RX (FSRX)."/>
+        <Value value="0x5" name="ReceiveContinuous" description="Receive continuous (RXCONTINUOUS)"/>
+        <Value value="0x6" name="ReceiveSingle" description="Receive single (RXSINGLE)."/>
+        <Value value="0x7" name="ChannelActivityDetection" description="Channel activity detection (CAD)."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="Frf" address="0x06" length="3" description="RF Carrier Frequency, Least Significant Bits (of 24 bits).">
+      <Number name="Value" bits="0-23" default="0x6C8000"/>
+    </Register>
+
+    <Register name="PaConfig" address="0x09" description="PA selection and Output Power control.">
+
+      <Enum name="PaSelect" bits="7" description="Selects PA output pin">
+        <Value value="0x0" name="RfoPin" description="Output power is limited to +14 dBm." isDefault="true"/>
+        <Value value="0x1" name="PaBoostPin" description="Output power is limited to +20 dBm"/>
+      </Enum>
+
+      <Enum name="MaxPower" bits="4-6" description="Select max output power (10.8 - 15.0 dBm).">
+        <Value value="0x0" name="PMax10_8dBm" description="Pmax = 10.8 dBm."/>
+        <Value value="0x1" name="PMax11_4dBm" description="Pmax = 11.4 dBm."/>
+        <Value value="0x2" name="PMax12_0dBm" description="Pmax = 12.0 dBm."/>
+        <Value value="0x3" name="PMax12_6dBm" description="Pmax = 12.6 dBm."/>
+        <Value value="0x4" name="PMax13_2dBm" description="Pmax = 13.2 dBm." isDefault="true"/>
+        <Value value="0x5" name="PMax13_8dBm" description="Pmax = 13.8 dBm."/>
+        <Value value="0x6" name="PMax14_4dBm" description="Pmax = 14.4 dBm."/>
+        <Value value="0x7" name="PMax15_0dBm" description="Pmax = 15.0 dBm."/>
+      </Enum>
+
+      <Enum name="OutputPower" bits="0-3" description="Output power.">
+        <Value value="0x0" name="Level00" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 15 dBm. If PaBoostPin: 2 dBm."/>
+        <Value value="0x1" name="Level01" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 14 dBm. If PaBoostPin: 3 dBm."/>
+        <Value value="0x2" name="Level02" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 13 dBm. If PaBoostPin: 4 dBm."/>
+        <Value value="0x3" name="Level03" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 12 dBm. If PaBoostPin: 5 dBm."/>
+        <Value value="0x4" name="Level04" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 11 dBm. If PaBoostPin: 6 dBm."/>
+        <Value value="0x5" name="Level05" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 10 dBm. If PaBoostPin: 7 dBm."/>
+        <Value value="0x6" name="Level06" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 9 dBm. If PaBoostPin: 8 dBm."/>
+        <Value value="0x7" name="Level07" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 8 dBm. If PaBoostPin: 9 dBm."/>
+        <Value value="0x8" name="Level08" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 7 dBm. If PaBoostPin: 10 dBm."/>
+        <Value value="0x9" name="Level09" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 6 dBm. If PaBoostPin: 11 dBm."/>
+        <Value value="0xA" name="Level10" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 5 dBm. If PaBoostPin: 12 dBm."/>
+        <Value value="0xB" name="Level11" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 4 dBm. If PaBoostPin: 13 dBm."/>
+        <Value value="0xC" name="Level12" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 3 dBm. If PaBoostPin: 14 dBm."/>
+        <Value value="0xD" name="Level13" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 2 dBm. If PaBoostPin: 15 dBm."/>
+        <Value value="0xE" name="Level14" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm - 1 dBm. If PaBoostPin: 16 dBm."/>
+        <Value value="0xF" name="Level15" description="The output power depends on PaSelect. If RfoPin: MaxPower dBm. If PaBoostPin: 17 dBm." isDefault="true"/>
+      </Enum>
+
+    </Register>
+
+    <Register name="PaRamp" address="0x0A" description="Control of PA ramp time, low phase noise PLL.">
+
+      <Enum name="PaRamp" bits="0-3" description="Rise/Fall time of ramp up/down in FSK.">
+        <Value value="0x0" name="RampTime_3400_us" description="3.4 ms Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x1" name="RampTime_2000_us" description="2 ms Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x2" name="RampTime_1000_us" description="1 ms Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x3" name="RampTime_0500_us" description="500 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x4" name="RampTime_0250_us" description="250 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x5" name="RampTime_0125_us" description="125 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x6" name="RampTime_0100_us" description="100 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x7" name="RampTime_0062_us" description="62 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x8" name="RampTime_0050_us" description="50 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0x9" name="RampTime_0040_us" description="40 μs Rise/Fall time of ramp up/down in FSK." isDefault="true"/>
+        <Value value="0xA" name="RampTime_0031_us" description="31 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0xB" name="RampTime_0025_us" description="25 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0xC" name="RampTime_0020_us" description="20 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0xD" name="RampTime_0015_us" description="15 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0xE" name="RampTime_0012_us" description="12 μs Rise/Fall time of ramp up/down in FSK."/>
+        <Value value="0xF" name="RampTime_0010_us" description="10 μs Rise/Fall time of ramp up/down in FSK."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="Ocp" address="0x0B" description="Over Current Protection control.">
+
+      <Enum name="OcpOn" bits="5" description="Enables overload current protection (OCP) for PA.">
+        <Value value="0x0" name="OcpDisabled" description="OCP disabled."/>
+        <Value value="0x1" name="OcpEnabled" description="OCP enabled." isDefault="true"/>
+      </Enum>
+
+      <Enum name="OcpTrim" bits="0-4" description="Trimming of OCP current.">
+        <Value value="0x00" name="IMax_045_mA" description="IMax = 45 mA."/>
+        <Value value="0x01" name="IMax_050_mA" description="IMax = 50 mA."/>
+        <Value value="0x02" name="IMax_055_mA" description="IMax = 55 mA."/>
+        <Value value="0x03" name="IMax_060_mA" description="IMax = 60 mA."/>
+        <Value value="0x04" name="IMax_065_mA" description="IMax = 65 mA."/>
+        <Value value="0x05" name="IMax_070_mA" description="IMax = 70 mA."/>
+        <Value value="0x06" name="IMax_075_mA" description="IMax = 75 mA."/>
+        <Value value="0x07" name="IMax_080_mA" description="IMax = 80 mA."/>
+        <Value value="0x08" name="IMax_085_mA" description="IMax = 85 mA."/>
+        <Value value="0x09" name="IMax_090_mA" description="IMax = 90 mA."/>
+        <Value value="0x0A" name="IMax_095_mA" description="IMax = 95 mA."/>
+        <Value value="0x0B" name="IMax_100_mA" description="IMax = 100 mA." isDefault="true"/>
+        <Value value="0x0C" name="IMax_105_mA" description="IMax = 105 mA."/>
+        <Value value="0x0D" name="IMax_110_mA" description="IMax = 110 mA."/>
+        <Value value="0x0E" name="IMax_115_mA" description="IMax = 115 mA."/>
+        <Value value="0x0F" name="IMax_120_mA" description="IMax = 120 mA."/>
+        <Value value="0x10" name="IMax_130_mA" description="IMax = 130 mA."/>
+        <Value value="0x11" name="IMax_140_mA" description="IMax = 140 mA."/>
+        <Value value="0x12" name="IMax_150_mA" description="IMax = 150 mA."/>
+        <Value value="0x13" name="IMax_160_mA" description="IMax = 160 mA."/>
+        <Value value="0x14" name="IMax_170_mA" description="IMax = 170 mA."/>
+        <Value value="0x15" name="IMax_180_mA" description="IMax = 180 mA."/>
+        <Value value="0x16" name="IMax_190_mA" description="IMax = 190 mA."/>
+        <Value value="0x17" name="IMax_200_mA" description="IMax = 200 mA."/>
+        <Value value="0x18" name="IMax_210_mA" description="IMax = 210 mA."/>
+        <Value value="0x19" name="IMax_220_mA" description="IMax = 220 mA."/>
+        <Value value="0x1A" name="IMax_230_mA" description="IMax = 230 mA."/>
+        <Value value="0x1B" name="IMax_240_mA" description="IMax = 240 mA."/>
+        <Value value="0x1C" name="IMax_250_mA" description="IMax = 250 mA."/>
+        <Value value="0x1D" name="IMax_260_mA" description="IMax = 260 mA."/>
+        <Value value="0x1E" name="IMax_270_mA" description="IMax = 270 mA."/>
+        <Value value="0x1F" name="IMax_280_mA" description="IMax = 280 mA."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="Lna" address="0x0C" description="LNA settings.">
+
+      <Enum name="LnaGain" bits="5-7" description="LNA gain setting.">
+        <Value value="0x0" name="NotUsed" description="Not used."/>
+        <Value value="0x1" name="G1Max" description="G1 = Maximum gain." isDefault="true"/>
+        <Value value="0x2" name="G2" description="G2 = Second highest gain."/>
+        <Value value="0x3" name="G3" description="G3 = Medium high gain."/>
+        <Value value="0x4" name="G4" description="G4 = Medium low gain."/>
+        <Value value="0x5" name="G5" description="G5 = Second lowest gain."/>
+        <Value value="0x6" name="G6Min" description="G6 = Minimum gain."/>
+        <Value value="0x7" name="NotUsed2" description="Not used."/>
+      </Enum>
+
+      <Enum name="LnaBoostLf" bits="3-4" description="Low Frequency (RFI_LF) LNA current adjustment.">
+        <Value value="0x0" name="DefaultLnaCurrent" description="Default LNA current." isDefault="true"/>
+      </Enum>
+
+      <Enum name="LnaBoostHf" bits="0-1" description="High Frequency (RFI_HF) LNA current adjustment.">
+        <Value value="0x0" name="DefaultLnaCurrent" description="Default LNA current." isDefault="true"/>
+        <Value value="0x3" name="BoostOn" description="Boost on, 150% LNA current."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="DioMapping1" address="0x40" description="Mapping of pins DIO0 to DIO3.">
+
+      <Enum name="Dio0Mapping" bits="6-7" description="Mapping of pins DIO0.">
+        <Value value="0x0" name="RxDone" isDefault="true"/>
+        <Value value="0x1" name="TxDone"/>
+        <Value value="0x2" name="CadDone"/>
+      </Enum>
+
+      <Enum name="Dio1Mapping" bits="4-5" description="Mapping of pins DIO1.">
+        <Value value="0x0" name="RxTimeout" isDefault="true"/>
+        <Value value="0x1" name="FhssChangeChannel"/>
+        <Value value="0x2" name="CadDetected"/>
+      </Enum>
+
+      <Enum name="Dio2Mapping" bits="2-3" description="Mapping of pins DIO2.">
+        <Value value="0x0" name="FhssChangeChannel1" isDefault="true"/>
+        <Value value="0x1" name="FhssChangeChannel2"/>
+        <Value value="0x2" name="FhssChangeChannel3"/>
+      </Enum>
+
+      <Enum name="Dio3Mapping" bits="0-1" description="Mapping of pins DIO3.">
+        <Value value="0x0" name="CadDone" isDefault="true"/>
+        <Value value="0x1" name="ValidHeader"/>
+        <Value value="0x2" name="PayloadCrcError"/>
+      </Enum>
+
+    </Register>
+
+    <Register name="DioMapping2" address="0x41" description="Mapping of pins DIO4 and DIO5, ClkOut frequency.">
+
+      <Enum name="Dio4Mapping" bits="6-7" description="Mapping of pins DIO4.">
+        <Value value="0x0" name="CadDetected" isDefault="true"/>
+        <Value value="0x1" name="PllLock1"/>
+        <Value value="0x2" name="PllLock2"/>
+      </Enum>
+
+      <Enum name="Dio5Mapping" bits="4-5" description="Mapping of pins DIO5.">
+        <Value value="0x0" name="ModeReady" isDefault="true"/>
+        <Value value="0x1" name="ClkOut1"/>
+        <Value value="0x2" name="ClkOut2"/>
+      </Enum>
+
+      <Enum name="MapPreambleDetect" bits="0" description="Allows the mapping of either Rssi Or PreambleDetect to the DIO pins.">
+        <Value value="0x0" name="RssiInterrupt" isDefault="true" description="Rssi interrupt."/>
+        <Value value="0x1" name="PreambleDetectInterrupt" description="PreambleDetect interrupt."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="Version" address="0x42" length="1" description="Semtech ID relating the silicon revision.">
+      <Number name="Value" bits="0-7" default="0x12"/>
+    </Register>
+
+    <Register name="Tcxo" address="0x4B" length="1" description="TCXO or XTAL input setting.">
+      <Number name="Value" bits="0-7" default="0x09"/>
+    </Register>
+
+    <Register name="PaDac" address="0x4D" length="1" description="Higher power settings of the PA.">
+
+      <Enum name="Reserved" bits="3-7" description="Reserved. Retain default value.">
+        <Value value="0x10" name="Default" isDefault="true" description="Default."/>
+      </Enum>
+
+      <Enum name="PaDac" bits="0-2" description="Enables the +20dBm option on PA_BOOST pin.">
+        <Value value="0x4" name="Default" isDefault="true" description="Default value."/>
+        <Value value="0x7" name="Boost" description="+20dBm on PA_BOOST when OutputPower=1111."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="FormerTemp" address="0x5B" length="1" description="Stored temperature during the former IQ Calibration.">
+      <Number name="Value" bits="0-7" default="0x00"/>
+    </Register>
+
+    <Register name="AgcRef" address="0x61" length="1" description="Adjustment of the AGC thresholds.">
+      <Number name="AgcReferenceLevel" bits="0-5" default="0x19" description="Sets the floor reference for all AGC thresholds: AGC Reference[dBm]=-174dBm+10*log(2*RxBw)+SNR+AgcReferenceLevel, SNR = 8dB, fixed value."/>
+    </Register>
+
+    <Register name="AgcThresh1" address="0x62" length="1" description="Adjustment of the AGC thresholds.">
+      <Number name="AgcStep1" bits="0-4" default="0x0C" description="Defines the 1st AGC Threshold."/>
+    </Register>
+
+    <Register name="AgcThresh2" address="0x63" length="1" description="Adjustment of the AGC thresholds.">
+      <Number name="AgcStep2" bits="4-7" default="0x04" description="Defines the 2nd AGC Threshold."/>
+      <Number name="AgcStep3" bits="0-3" default="0x0B" description="Defines the 3rd AGC Threshold."/>
+    </Register>
+
+    <Register name="AgcThresh3" address="0x64" length="1" description="Adjustment of the AGC thresholds.">
+      <Number name="AgcStep4" bits="4-7" default="0x0C" description="Defines the 4th AGC Threshold."/>
+      <Number name="AgcStep5" bits="0-3" default="0x0C" description="Defines the 5th AGC Threshold."/>
+    </Register>
+
+    <Register name="Pll" address="0x70" length="1" description="Control of the PLL bandwidth.">
+
+      <Enum name="PllBandwidth" bits="6-7" description="Controls the PLL bandwidth.">
+        <Value value="0x0" name="Pll_075_kHz" isDefault="true" description="75 kHz"/>
+        <Value value="0x1" name="Pll_150_kHz" description="150 kHz"/>
+        <Value value="0x2" name="Pll_225_kHz" description="225 kHz"/>
+        <Value value="0x3" name="Pll_300_kHz" description="300 kHz"/>
+      </Enum>
+
+    </Register>
+
+  </RegisterGroup>
+
+  <RegisterGroup prefix="Fsk">
+
+    <Register name="ImageCal" address="0x3B" description="Image calibration engine control.">
+
+      <Enum name="AutoImageCalOn" bits="7" description="Controls the Image calibration mechanism.">
+        <Value value="0x0" name="Disabled" description="Calibration of the receiver depending on the temperature is disabled." isDefault="true"/>
+        <Value value="0x1" name="Enabled" description="Calibration of the receiver depending on the temperature enabled."/>
+      </Enum>
+
+      <Enum name="ImageCalStart" bits="6" description="Triggers the IQ and RSSI calibration when set in Standby mode.">
+        <Value value="0x0" name="Idle" description="Idle." isDefault="true"/>
+        <Value value="0x1" name="Start" description="Triggers the IQ and RSSI calibration when set in Standby mode."/>
+      </Enum>
+
+      <Enum name="ImageCalRunning" bits="5" description="Set to {Run} while the Image and RSSI calibration are running. Toggles back to {Idle} when the process is completed.">
+        <Value value="0x0" name="Idle" description="Idle." isDefault="true"/>
+        <Value value="0x1" name="Run" description="Set to this while the Image and RSSI calibration are running."/>
+      </Enum>
+
+      <Enum name="TempChange" bits="3" description="IRQ flag witnessing a temperature change exceeding. TempThreshold since the last Image and RSSI calibration.">
+        <Value value="0x0" name="LowerThanThreshold" description="Temperature change lower than TempThreshold." isDefault="true"/>
+        <Value value="0x1" name="HigherThanThreshold" description="Temperature change greater than TempThreshold."/>
+      </Enum>
+
+      <Enum name="TempThreshold" bits="1-2" description="Temperature change threshold to trigger a new I/Q calibration.">
+        <Value value="0x0" name="Threshold_05C" description="Temperature change threshold 5 °C."/>
+        <Value value="0x1" name="Threshold_10C" description="Temperature change threshold 10 °C." isDefault="true"/>
+        <Value value="0x2" name="Threshold_15C" description="Temperature change threshold 15 °C."/>
+        <Value value="0x3" name="Threshold_20C" description="Temperature change threshold 20 °C."/>
+      </Enum>
+
+      <Enum name="TempMonitorActive" bits="0" description="Controls the temperature monitor operation.">
+        <Value value="0x0" name="Monitoring" description="Temperature monitoring done in all modes except Sleep and Standby." isDefault="true"/>
+        <Value value="0x1" name="Stopped" description="Temperature monitoring stopped."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="Temp" address="0x3C" mode="ReadOnly" description="Temperature Sensor value.">
+      <Number name="Value" bits="0-7" description="Temperature Sensor value."/>
+    </Register>
+
+    <Register name="LowBat" address="0x3D" description="Low Battery Indicator Settings.">
+
+      <Enum name="LowBatOn" bits="3" description="Low Battery detector enable signal.">
+        <Value value="0x0" name="Disabled" description="LowBat detector disabled." isDefault="true"/>
+        <Value value="0x1" name="Enabled" description="LowBat detector enabled."/>
+      </Enum>
+
+      <Enum name="LowBatTrim" bits="0-2" description="Trimming of the LowBat threshold.">
+        <Value value="0x0" name="Threshold_1_695V" description="LowBat threshold 1.695 V."/>
+        <Value value="0x1" name="Threshold_1_764V" description="LowBat threshold 1.764 V."/>
+        <Value value="0x2" name="Threshold_1_835V" description="LowBat threshold 1.835 V." isDefault="true"/>
+        <Value value="0x3" name="Threshold_1_905V" description="LowBat threshold 1.905 V."/>
+        <Value value="0x4" name="Threshold_1_976V" description="LowBat threshold 1.976 V."/>
+        <Value value="0x5" name="Threshold_2_045V" description="LowBat threshold 2.045 V."/>
+        <Value value="0x6" name="Threshold_2_116V" description="LowBat threshold 2.116 V."/>
+        <Value value="0x7" name="Threshold_2_185V" description="LowBat threshold 2.185 V."/>
+      </Enum>
+
+    </Register>
+
+  </RegisterGroup>
+
+  <RegisterGroup prefix="Lora">
+
+    <Register name="FifoAddrPtr" address="0x0D" description="FIFO SPI pointer.">
+      <Number name="Fifo" bits="0-7" default="0x00" description="LoRa base-band FIFO data input/output. FIFO is cleared an not accessible when device is in SLEEP mode."/>
+    </Register>
+
+    <Register name="FifoTxBaseAddr" address="0x0E" description="Start Tx data.">
+      <Number name="FifoTxBaseAddr" bits="0-7" default="0x80" description="Write base address in FIFO data buffer for TX modulator."/>
+    </Register>
+
+    <Register name="FifoRxBaseAddr" address="0x0F" description="Start Rx data.">
+      <Number name="FifoRxBaseAddr" bits="0-7" default="0x00" description="Read base address in FIFO data buffer for RX demodulator."/>
+    </Register>
+
+    <Register name="FifoRxCurrentAddr" address="0x10" mode="ReadOnly" description="Start address of last packet received.">
+      <Number name="Addr" bits="0-7" description="Start address (in data buffer) of last packet received."/>
+    </Register>
+
+    <Register name="IrqFlagsMask" address="0x11" description="Optional IRQ flag mask.">
+      <Flags name="FlagsMask" bits="0-7">
+        <Value value="0x00" name="None" isDefault="true"/>
+        <Value value="0x01" name="CadDetectedMask" description="Cad Detected Interrupt Mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+        <Value value="0x02" name="FhssChangeChannelMask" description="FHSS change channel interrupt mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+        <Value value="0x04" name="CadDoneMask" description="CAD complete interrupt mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+        <Value value="0x08" name="TxDoneMask" description="FIFO Payload transmission complete interrupt mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+        <Value value="0x10" name="ValidHeaderMask" description="Valid header received in Rx mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+        <Value value="0x20" name="PayloadCrcErrorMask" description="Payload CRC error interrupt mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+        <Value value="0x40" name="RxDoneMask" description="Packet reception complete interrupt mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+        <Value value="0x80" name="RxTimeoutMask" description="Timeout interrupt mask: setting this bit masks the corresponding IRQ in RegIrqFlags."/>
+      </Flags>
+    </Register>
+
+    <Register name="IrqFlags" address="0x12" mode="ReadClear" description="IRQ flags.">
+      <Flags name="Flags" bits="0-7">
+        <Value value="0x00" name="None"/>
+        <Value value="0x01" name="CadDetected" description="Valid Lora signal detected during CAD operation: writing a 1 clears the IRQ."/>
+        <Value value="0x02" name="FhssChangeChannel" description="FHSS change channel interrupt: writing a 1 clears the IRQ."/>
+        <Value value="0x04" name="CadDone" description="CAD complete: write to clear: writing a 1 clears the IRQ."/>
+        <Value value="0x08" name="TxDone" description="FIFO Payload transmission complete interrupt: writing a 1 clears the IRQ."/>
+        <Value value="0x10" name="ValidHeader" description="Valid header received in Rx: writing a 1 clears the IRQ."/>
+        <Value value="0x20" name="PayloadCrcError" description="Payload CRC error interrupt: writing a 1 clears the IRQ."/>
+        <Value value="0x40" name="RxDone" description="Packet reception complete interrupt: writing a 1 clears the IRQ."/>
+        <Value value="0x80" name="RxTimeout" description="Timeout interrupt: writing a 1 clears the IRQ."/>
+      </Flags>
+    </Register>
+
+    <Register name="RxNbBytes" address="0x13" mode="ReadOnly" description="Number of received bytes.">
+      <Number name="FifoRxBytesNb" bits="0-7" description="Number of payload bytes of latest packet received."/>
+    </Register>
+
+    <Register name="RxHeaderCntValue" address="0x14" mode="ReadOnly" length="2" description="Number of valid headers received.">
+      <Number name="ValidHeaderCnt" bits="0-15" description="Number of valid headers received since last transition into Rx mode. Header and packet counters are reseted in Sleep mode."/>
+    </Register>
+
+    <Register name="RxPacketCntValue" address="0x16" length="2" mode="ReadClear" description="Number of valid packets received.">
+      <Number name="ValidPacketCnt" bits="0-15" description="Number of valid packets received since last transition into Rx mode. Header and packet counters are reseted in Sleep mode."/>
+    </Register>
+
+    <Register name="ModemStat" address="0x18" mode="ReadOnly" description="Live LoRaTM modem status.">
+
+      <Enum name="RxCodingRate" bits="5-7" description="Coding rate of last header received.">
+        <Value value="0x0" name="Value0" description="Value 0."/>
+        <Value value="0x1" name="Value1" description="Value 1."/>
+        <Value value="0x2" name="Value2" description="Value 2."/>
+        <Value value="0x3" name="Value3" description="Value 3."/>
+        <Value value="0x4" name="Value4" description="Value 4."/>
+        <Value value="0x5" name="Value5" description="Value 5."/>
+        <Value value="0x6" name="Value6" description="Value 6."/>
+        <Value value="0x7" name="Value7" description="Value 7."/>
+      </Enum>
+
+      <Flags name="ModemStatus" bits="0-4" description="The modem status.">
+        <Value value="0x00" name="None"/>
+        <Value value="0x01" name="SignalDetected" description="Signal detected."/>
+        <Value value="0x02" name="SignalSynchronized" description="Signal synchronized."/>
+        <Value value="0x04" name="RxOngoing" description="RX on-going."/>
+        <Value value="0x08" name="HeaderInfoValid" description="Header info valid."/>
+        <Value value="0x10" name="ModemClear" description="Modem clear."/>
+      </Flags>
+
+    </Register>
+
+    <Register name="PktSnrValue" address="0x19" mode="ReadOnly" description="Espimation of last packet SNR.">
+      <Number name="PacketSnr" bits="0-7" description="Estimation of SNR on last packet received. In two’s compliment format mutiplied by 4. Formula: SNR[dB] = PacketSnr[twos complement] / 4."/>
+    </Register>
+
+    <Register name="PktRssiValue" address="0x1A" mode="ReadOnly" description="RSSI of last packet.">
+      <Number name="PacketRssi" bits="0-7" description="RSSI of the latest packet received (dBm): RSSI[dBm] = -157 + Rssi (using HF output port, SNR >= 0) or RSSI[dBm] = -164 + Rssi (using LF output port, SNR >= 0)."/>
+    </Register>
+
+    <Register name="RssiValue" address="0x1B" mode="ReadOnly" description="Current RSSI.">
+      <Number name="Rssi" bits="0-7" description="Current RSSI value (dBm): RSSI[dBm] = -157 + Rssi (using HF output port) or RSSI[dBm] = -164 + Rssi (using LF output port)."/>
+    </Register>
+
+    <Register name="HopChannel" address="0x1C" mode="ReadOnly" description="FHSS start channel.">
+
+      <Enum name="PllTimeout" bits="7" description="PLL failed to lock while attempting a TX/RX/CAD operation.">
+        <Value value="0x0" name="PllDidNotLock" description="Normal mode, a single packet is sent."/>
+        <Value value="0x1" name="PllDidLock" description="Continuous mode, send multiple packets across the FIFO (used for spectral analysis)."/>
+      </Enum>
+
+      <Enum name="CrcOnPayload" bits="6" description="CRC Information extracted from the received packet header (Explicit header mode only).">
+        <Value value="0x0" name="HeaderIndicatesCrcOff" description="Header indicates CRC off."/>
+        <Value value="0x1" name="HeaderIndicatesCrcOn" description="Header indicates CRC on."/>
+      </Enum>
+
+      <Enum name="FhssPresentChannel" bits="0-5" description="Current value of frequency hopping channel in use.">
+        <Value value="0x00" name="Channel00" description="Channel 0."/>
+        <Value value="0x01" name="Channel01" description="Channel 1."/>
+        <Value value="0x02" name="Channel02" description="Channel 2."/>
+        <Value value="0x03" name="Channel03" description="Channel 3."/>
+        <Value value="0x04" name="Channel04" description="Channel 4."/>
+        <Value value="0x05" name="Channel05" description="Channel 5."/>
+        <Value value="0x06" name="Channel06" description="Channel 6."/>
+        <Value value="0x07" name="Channel07" description="Channel 7."/>
+        <Value value="0x08" name="Channel08" description="Channel 8."/>
+        <Value value="0x09" name="Channel09" description="Channel 9."/>
+        <Value value="0x0A" name="Channel10" description="Channel 10."/>
+        <Value value="0x0B" name="Channel11" description="Channel 11."/>
+        <Value value="0x0C" name="Channel12" description="Channel 12."/>
+        <Value value="0x0D" name="Channel13" description="Channel 13."/>
+        <Value value="0x0E" name="Channel14" description="Channel 14."/>
+        <Value value="0x0F" name="Channel15" description="Channel 15."/>
+        <Value value="0x10" name="Channel16" description="Channel 16."/>
+        <Value value="0x11" name="Channel17" description="Channel 17."/>
+        <Value value="0x12" name="Channel18" description="Channel 18."/>
+        <Value value="0x13" name="Channel19" description="Channel 19."/>
+        <Value value="0x14" name="Channel20" description="Channel 20."/>
+        <Value value="0x15" name="Channel21" description="Channel 21."/>
+        <Value value="0x16" name="Channel22" description="Channel 22."/>
+        <Value value="0x17" name="Channel23" description="Channel 23."/>
+        <Value value="0x18" name="Channel24" description="Channel 24."/>
+        <Value value="0x19" name="Channel25" description="Channel 25."/>
+        <Value value="0x1A" name="Channel26" description="Channel 26."/>
+        <Value value="0x1B" name="Channel27" description="Channel 27."/>
+        <Value value="0x1C" name="Channel28" description="Channel 28."/>
+        <Value value="0x1D" name="Channel29" description="Channel 29."/>
+        <Value value="0x1E" name="Channel30" description="Channel 30."/>
+        <Value value="0x1F" name="Channel31" description="Channel 31."/>
+        <Value value="0x20" name="Channel32" description="Channel 32."/>
+        <Value value="0x21" name="Channel33" description="Channel 33."/>
+        <Value value="0x22" name="Channel34" description="Channel 34."/>
+        <Value value="0x23" name="Channel35" description="Channel 35."/>
+        <Value value="0x24" name="Channel36" description="Channel 36."/>
+        <Value value="0x25" name="Channel37" description="Channel 37."/>
+        <Value value="0x26" name="Channel38" description="Channel 38."/>
+        <Value value="0x27" name="Channel39" description="Channel 39."/>
+        <Value value="0x28" name="Channel40" description="Channel 40."/>
+        <Value value="0x29" name="Channel41" description="Channel 41."/>
+        <Value value="0x2A" name="Channel42" description="Channel 42."/>
+        <Value value="0x2B" name="Channel43" description="Channel 43."/>
+        <Value value="0x2C" name="Channel44" description="Channel 44."/>
+        <Value value="0x2D" name="Channel45" description="Channel 45."/>
+        <Value value="0x2E" name="Channel46" description="Channel 46."/>
+        <Value value="0x2F" name="Channel47" description="Channel 47."/>
+        <Value value="0x30" name="Channel48" description="Channel 48."/>
+        <Value value="0x31" name="Channel49" description="Channel 49."/>
+        <Value value="0x32" name="Channel50" description="Channel 50."/>
+        <Value value="0x33" name="Channel51" description="Channel 51."/>
+        <Value value="0x34" name="Channel52" description="Channel 52."/>
+        <Value value="0x35" name="Channel53" description="Channel 53."/>
+        <Value value="0x36" name="Channel54" description="Channel 54."/>
+        <Value value="0x37" name="Channel55" description="Channel 55."/>
+        <Value value="0x38" name="Channel56" description="Channel 56."/>
+        <Value value="0x39" name="Channel57" description="Channel 57."/>
+        <Value value="0x3A" name="Channel58" description="Channel 58."/>
+        <Value value="0x3B" name="Channel59" description="Channel 59."/>
+        <Value value="0x3C" name="Channel60" description="Channel 60."/>
+        <Value value="0x3D" name="Channel61" description="Channel 61."/>
+        <Value value="0x3E" name="Channel62" description="Channel 62."/>
+        <Value value="0x3F" name="Channel63" description="Channel 63."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="ModemConfig1" address="0x1D" description="Modem PHY config 1.">
+
+      <Enum name="BandWidth" bits="4-7" description="TX mode.">
+        <Value value="0x0" name="BandWidth_007_80_kHz" description="BandWidth 7.8 kHz."/>
+        <Value value="0x1" name="BandWidth_010_40_kHz" description="BandWidth 10.5 kHz."/>
+        <Value value="0x2" name="BandWidth_015_60_kHz" description="BandWidth 15.6 kHz."/>
+        <Value value="0x3" name="BandWidth_020_80_kHz" description="BandWidth 20.8 kHz."/>
+        <Value value="0x4" name="BandWidth_031_25_kHz" description="BandWidth 31.25 kHz."/>
+        <Value value="0x5" name="BandWidth_041_70_kHz" description="BandWidth 41.7 kHz."/>
+        <Value value="0x6" name="BandWidth_062_50_kHz" description="BandWidth 62.5 kHz."/>
+        <Value value="0x7" name="BandWidth_125_00_kHz" description="BandWidth 125 kHz." isDefault="true"/>
+        <Value value="0x8" name="BandWidth_250_00_kHz" description="BandWidth 250 kHz."/>
+        <Value value="0x9" name="BandWidth_500_00_kHz" description="BandWidth 500 kHz."/>
+      </Enum>
+
+      <Enum name="CodingRate" bits="1-3" description="Error coding rate.">
+        <Value value="0x1" name="Rate1" description="Error coding rate 4/5." isDefault="true"/>
+        <Value value="0x2" name="Rate2" description="Error coding rate 4/6."/>
+        <Value value="0x3" name="Rate3" description="Error coding rate 4/7."/>
+        <Value value="0x4" name="Rate4" description="Error coding rate 4/8."/>
+      </Enum>
+
+      <Enum name="HeaderMode" bits="0" description="Header mode.">
+        <Value value="0x0" name="ExplicitHeaderMode" description="Explicit Header mode." isDefault="true"/>
+        <Value value="0x1" name="ImplicitHeaderMode" description="Implicit Header mode."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="ModemConfig2" address="0x1E" length="2" description="Modem PHY config 2.">
+
+      <Enum name="SpreadingFactor" bits="12-15" description="SF rate (expressed as a base-2 logarithm).">
+        <Value value="0x6" name="Sf_0064_ChipsPerSymbol" description="64 chips / symbol."/>
+        <Value value="0x7" name="Sf_0128_ChipsPerSymbol" description="128 chips / symbol." isDefault="true"/>
+        <Value value="0x8" name="Sf_0256_ChipsPerSymbol" description="256 chips / symbol."/>
+        <Value value="0x9" name="Sf_0512_ChipsPerSymbol" description="512 chips / symbol."/>
+        <Value value="0xA" name="Sf_1024_ChipsPerSymbol" description="1024 chips / symbol."/>
+        <Value value="0xB" name="Sf_2048_ChipsPerSymbol" description="2048 chips / symbol."/>
+        <Value value="0xC" name="Sf_4096_ChipsPerSymbol" description="4096 chips / symbol."/>
+      </Enum>
+
+      <Enum name="TxMode" bits="11" description="TX mode.">
+        <Value value="0x0" name="NormalMode" description="Normal mode, a single packet is sent." isDefault="true"/>
+        <Value value="0x1" name="ContinuousMode" description="Continuous mode, send multiple packets across the FIFO (used for spectral analysis)."/>
+      </Enum>
+
+      <Enum name="RxPayloadCrc" bits="10" description="Enable CRC generation and check on payload.
+				  If CRC is needed, RxPayloadCrcOn should be set:
+				  - in Implicit header mode: on Tx and Rx side.
+				  - in Explicit header mode: on the Tx side alone (recovered from the header in Rx side).">
+        <Value value="0x0" name="CrcDisabled" description="CRC disable." isDefault="true"/>
+        <Value value="0x1" name="CrcEnabled" description="CRC enable."/>
+      </Enum>
+
+      <Number name="SymbolTimeout" bits="0-9" default="0x64" description="RX operation time-out value expressed as number of symbols. Time-out = {SymbolTimeout} * Ts. A value between 0 and 1023."/>
+
+    </Register>
+
+    <Register name="Preamble" address="0x20" length="2" description="Size of preamble.">
+      <Number name="PreambleLength" bits="0-15" default="0x8" description="Preamble length MSB, = PreambleLength + 4.25 Symbols."/>
+    </Register>
+
+    <Register name="PayloadLength" address="0x22" description="LoRa payload length.">
+      <Number name="PayloadLength" bits="0-7" default="0x1" description="Payload length in bytes. The register needs to be set in implicit header mode for the expected packet length. A 0 value is not permitted."/>
+    </Register>
+
+    <Register name="MaxPayloadLength" address="0x23" description="LoRa maximum payload length.">
+      <Number name="MaxPayloadLength" bits="0-7" default="0xFF" description="Maximum payload length; if header payload length exceeds value a header CRC error is generated. Allows filtering of packet with a bad size."/>
+    </Register>
+
+    <Register name="HopPeriod" address="0x24" description="FHSS Hop period.">
+      <Number name="FreqHoppingPeriod" bits="0-7" default="0x0" description="Symbol periods between frequency hops. (0 = disabled). 1st hop always happen after the 1st header symbol."/>
+    </Register>
+
+    <Register name="FifoRxByteAddr" address="0x25" mode="ReadOnly" description="Address of last byte written in FIFO.">
+      <Number name="FifoRxByteAddrPtr" bits="0-7" description="Current value of RX databuffer pointer (address of last byte written by Lora receiver)."/>
+    </Register>
+
+    <Register name="ModemConfig3" address="0x26" description="Modem PHY config 3.">
+
+      <Enum name="LowDataRateOptimize" bits="3" description="Low data rate optimize.">
+        <Value value="0x0" name="Disabled" description="Disabled." isDefault="true"/>
+        <Value value="0x1" name="Enabled" description="Enabled; mandated for when the symbol length exceeds 16ms."/>
+      </Enum>
+
+      <Enum name="AgcAuto" bits="2" description="Low data rate optimize.">
+        <Value value="0x0" name="Disabled" description="LNA gain set by register {Common.Lna.LnaGain}." isDefault="true"/>
+        <Value value="0x1" name="Enabled" description="LNA gain set by the internal AGC loop."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="Fei" address="0x28" length="3" mode="ReadOnly" description="Estimated frequency error.">
+      <Number name="FreqError" bits="0-19" description="Estimated frequency error from modem MSB of RF Frequency Error. Formula: F[error] = ((FreqError x 2^24) / F[xtal]) x (BW[kHz] / 500)."/>
+    </Register>
+
+    <Register name="RssiWideband" address="0x2C" mode="ReadOnly" description="Wideband RSSI measurement.">
+      <Number name="RssiWideband" bits="0-7" description="Wideband RSSI measurement used to locally generate a random number."/>
+    </Register>
+
+    <Register name="DetectOptimize" address="0x31" description="LoRa detection Optimize for SF6.">
+
+      <Enum name="DetectionOptimize" bits="0-2" description="LoRa detection optimize.">
+        <Value value="0x3" name="Sf7ToSf12" description="SF7 to SF12." isDefault="true"/>
+        <Value value="0x5" name="Sf6" description="SF6."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="InvertIq" address="0x33" description="Invert LoRa I and Q signals.">
+
+      <Enum name="InvertIq" bits="6" description="Invert the LoRa I and Q signals.">
+        <Value value="0x0" name="NormalMode" description="Normal mode." isDefault="true"/>
+        <Value value="0x1" name="InvertIq" description="I and Q signals are inverted."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="DetectionThreshold" address="0x37" description="LoRa detection threshold for SF6.">
+
+      <Enum name="DetectionThreshold" bits="0-7" description="LoRa detection threshold.">
+        <Value value="0xA" name="Sf7ToSf12" description="SF7 to SF12." isDefault="true"/>
+        <Value value="0xC" name="Sf6" description="SF6."/>
+      </Enum>
+
+    </Register>
+
+    <Register name="SyncWord" address="0x39" description="LoRa Sync Word.">
+      <Number name="SyncWord" bits="0-7" default="0x12" description="LoRa Sync Word. Value 0x34 is reserved for LoRaWAN networks."/>
+    </Register>
+
+  </RegisterGroup>
+
+  <!--<RegisterGroup prefix="Fsk">
+
+		<Register name="xxxxxxxxxxx" address="0x2B" description="xxxxxxxxxxxxxxx.">
+			-->
+  <!-- TODO -->
+  <!--
+		</Register>
+
+	</RegisterGroup>-->
+
+</Registers>
