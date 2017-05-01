@@ -64,20 +64,12 @@ namespace Dragino.Lora.Demo.Gateway
 
 
             // OR: I have a Dragino LoRa (GPS) Arduino Shield connected via wires to the GPIO on my Raspberry Pi:
-            //return TransceiverFactory.Create(settings, GetManualPins());  // <-- Edit the GetManualPins-method below!
-        }
-
-        /// <summary>
-        /// Manual pin settings for a Dragino LoRa (GPS) Arduino Shield connected via wires to the GPIO on the Raspberry Pi.
-        /// </summary>
-        private static TransceiverPinSettings GetManualPins()
-        {
-            return new TransceiverPinSettings(
-                25,  // ChipSelect
-                17,  // Reset
-                4,   // Dio0
-                23,  // Dio1 (Optional -- you may use null)
-                24); // Dio2 (Optional -- you may use null)
+            //return TransceiverFactory.Create(settings, new TransceiverPinSettings(
+            //    25,  // ChipSelect
+            //    17,  // Reset
+            //    4,   // Dio0
+            //    23,  // Dio1 (Optional -- you may use null)
+            //    24)); // Dio2 (Optional -- you may use null)
         }
 
         private static Task<IGpsManager> CreateGpsManager()
@@ -115,8 +107,7 @@ namespace Dragino.Lora.Demo.Gateway
 
 
             // OR: Use a hard coded EUI:
-            //return Task.FromResult(new GatewayEui("b827ebffff39cc04")); // <-- #1
-            //return Task.FromResult(new GatewayEui("B827EBFFFF89DD56")); // <-- #2
+            //return Task.FromResult(new GatewayEui("0123456789ABCDEF"));
         }
 
         private async Task MainLoop()
@@ -125,6 +116,7 @@ namespace Dragino.Lora.Demo.Gateway
             {
                 // Create the transceiver:
                 ITransceiver transceiver = await CreateTransceiver(_gatewaySettings).ConfigureAwait(false);
+                transceiver.OnMessageReceived += TransceiverOnMessageReceived;
 
                 // Create the GPS manager (if existing):
                 IPositionProvider positionProvider;
@@ -165,6 +157,13 @@ namespace Dragino.Lora.Demo.Gateway
                 WriteLog("The demo crashed:\r\n" + exception.Message);
                 Debugger.Break();
             }
+        }
+
+        private void TransceiverOnMessageReceived(object sender, ReceivedMessageEventArgs e)
+        {
+            ReceivedMessage message = e.Message;
+
+            WriteLog("Message Received: " + message);
         }
 
         private async void GpsManagerPositionDataAsync(object sender, PositionDataEventArgs e)

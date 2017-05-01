@@ -13,16 +13,19 @@ namespace Dragino.Radio.LoraWan
 {
     internal class LoraWanGateway : ILoraWanGateway
     {
+        private static readonly double _ticksScale = Stopwatch.Frequency / 1000000.0;
+
         private readonly ITransceiver _transceiver;
         private readonly LoraWanGatewaySettings _gatewaySettings;
         private readonly IPositionProvider _positionProvider;
         private readonly LoraNetworkClient[] _loraNetworkClients;
         private readonly MessageComposer _messageComposer;
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private static readonly double _ticksScale = Stopwatch.Frequency / 1000000.0;
+        private readonly string _datr;
+        private readonly string _codr;
         private bool _isDisposed;
         private uint _forwardedFrameCount;
-        
+
         public LoraWanGateway(
             ITransceiver transceiver,
             LoraWanGatewaySettings gatewaySettings,
@@ -41,6 +44,62 @@ namespace Dragino.Radio.LoraWan
             _messageComposer = new MessageComposer(gatewayEui);
 
             _transceiver.OnMessageReceived += TransceiverOnMessageReceived;
+
+            _datr = GetSF() + GetBW();
+            _codr = GetCodr();
+        }
+
+        private string GetSF()
+        {
+            switch (_gatewaySettings.SpreadingFactor)
+            {
+                case SpreadingFactor.SF7:
+                    return "SF7";
+                case SpreadingFactor.SF8:
+                    return "SF8";
+                case SpreadingFactor.SF9:
+                    return "SF9";
+                case SpreadingFactor.SF10:
+                    return "SF10";
+                case SpreadingFactor.SF11:
+                    return "SF11";
+                case SpreadingFactor.SF12:
+                    return "SF12";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_gatewaySettings.SpreadingFactor), "Unsupported spreading factor!");
+            }
+        }
+
+        private string GetBW()
+        {
+            switch (_gatewaySettings.BandWidth)
+            {
+                case BandWidth.BandWidth_125_00_kHz:
+                    return "BW125";
+                case BandWidth.BandWidth_250_00_kHz:
+                    return "BW250";
+                case BandWidth.BandWidth_500_00_kHz:
+                    return "BW500";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_gatewaySettings.BandWidth), "Unsupported bandwidth!");
+            }
+        }
+
+        private string GetCodr()
+        {
+            switch (_gatewaySettings.CodingRate)
+            {
+                case CodingRate.FourOfFive:
+                    return "4/5";
+                case CodingRate.FourOfSix:
+                    return "4/6";
+                case CodingRate.FourOfSeven:
+                    return "4/7";
+                case CodingRate.FourOfEight:
+                    return "4/8";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_gatewaySettings.CodingRate), "Unsupported coding rate!");
+            }
         }
 
         public void Dispose()
@@ -58,14 +117,12 @@ namespace Dragino.Radio.LoraWan
             _isDisposed = true;
         }
 
-        public event EventHandler<ReceivedMessageEventArgs> OnMessageReceived;
-
         public Task SendStatus()
         {
             uint receivedCount = _transceiver.ReceivedOkCount +
                 _transceiver.ReceivedBadCrcCount +
                 _transceiver.ReceivedTimeoutCount;
-            
+
             Debug.WriteLine($"Packages: {receivedCount} / {_transceiver.ReceivedOkCount} / {_forwardedFrameCount}");
 
             var statMessage = new StatMessage(
@@ -77,8 +134,8 @@ namespace Dragino.Radio.LoraWan
                 _transceiver.ReceivedOkCount,
                 _forwardedFrameCount,
                 100, // TODO!
-                0, // TODO!
-                0); // TODO!
+                0,   // TODO!
+                0);  // TODO!
 
             JsonObject jsonData = JsonSerializer.ToJson(statMessage);
 
@@ -96,15 +153,9 @@ namespace Dragino.Radio.LoraWan
         {
             ReceivedMessage message = e.Message;
 
-            if (!message.CrcOk)
+            Debug.WriteLine("Received: " + message);
+            if (!message.CrcOk || message.Timeout)
             {
-                Debug.WriteLine("Message with bad CRC received");
-                return;
-            }
-
-            if (message.Timeout)
-            {
-                Debug.WriteLine("Received message timeout");
                 return;
             }
 
@@ -115,9 +166,9 @@ namespace Dragino.Radio.LoraWan
                 0, // TODO!
                 0, // TODO!
                 1, // TODO!
-                "LORA", // TODO!
-                $"SF{(int)_gatewaySettings.SpreadingFactor}BW{125}", // TODO!
-                "4/5", // TODO!
+                "LORA",
+                _datr,
+                _codr,
                 message.PacketRssi,
                 message.PacketSnr,
                 (uint)message.Buffer.Length,
@@ -125,13 +176,11 @@ namespace Dragino.Radio.LoraWan
 
             JsonObject jsonData = JsonSerializer.ToJson(rxpkMessage);
 
-            Debug.WriteLine(jsonData);
+            Debug.WriteLine("Sending JSON: " + jsonData);
 
             await PushData(jsonData).ConfigureAwait(false);
 
             _forwardedFrameCount++;
-
-            Debug.WriteLine("@-@-@------------------------------------------------------------------------------------");
         }
 
         /// <summary>

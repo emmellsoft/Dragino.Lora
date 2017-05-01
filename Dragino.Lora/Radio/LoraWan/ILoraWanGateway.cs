@@ -12,10 +12,5 @@ namespace Dragino.Radio.LoraWan
         /// Send the current status of the gateway to the server.
         /// </summary>
         Task SendStatus();
-
-        /// <summary>
-        /// An event fired when a message has successfully been received.
-        /// </summary>
-        event EventHandler<ReceivedMessageEventArgs> OnMessageReceived;
     }
 }

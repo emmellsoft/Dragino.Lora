@@ -2,7 +2,7 @@
 {
     public enum SpreadingFactor : byte
     {
-        SF7 = 7,
+        SF7,
         SF8,
         SF9,
         SF10,
