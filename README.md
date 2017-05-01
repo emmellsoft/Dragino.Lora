@@ -1,14 +1,16 @@
 # Dragino LoRa (GPS) .NET Library
 A Windows IoT Core library for the Dragino LoRa expansion boards
 
-**NOTE: This is a work in progress.**
+***NOTE: This is a work in progress.***
 
 ## Hardware
 
 The library is developed and tested on the following expansion boards:
 
 [LoRa/GPS HAT](http://www.dragino.com/products/module/item/106-lora-gps-hat.html "Dragino's product page")
+
 [LoRa/GPS Shield](http://www.dragino.com/products/lora/item/108-lora-gps-shield.html "Dragino's product page")
+
 [LoRa Shield](http://www.dragino.com/products/lora/item/102-lora-shield.html "Dragino's product page")
 
 ## The .NET library
@@ -21,6 +23,8 @@ Create an instance of the transceiver using the static `Dragino.Radio.Transceive
 The `TransceiverSettings` tells how the radio chip should operate and the `TransceiverPinSettings` tells which GPIO pins are used to hook up the expansion board. If the LoRa/GPS HAT is used there is a `TransceiverPinSettings.DraginoLoraGpsHat` preset that can be used, otherwise the pin numbers must be specified.
 
 ### GPS
+
+*To be described here...*
 
 ## Demo Code
 
