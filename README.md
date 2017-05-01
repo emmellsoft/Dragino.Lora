@@ -7,11 +7,11 @@ A Windows IoT Core library for the Dragino LoRa expansion boards
 
 The library is developed and tested on the following expansion boards:
 
-[LoRa/GPS HAT](http://www.dragino.com/products/module/item/106-lora-gps-hat.html "Dragino's product page")
+[Dragino LoRa/GPS HAT](http://www.dragino.com/products/module/item/106-lora-gps-hat.html "Dragino's product page")
 
-[LoRa/GPS Shield](http://www.dragino.com/products/lora/item/108-lora-gps-shield.html "Dragino's product page")
+[Dragino LoRa/GPS Shield](http://www.dragino.com/products/lora/item/108-lora-gps-shield.html "Dragino's product page")
 
-[LoRa Shield](http://www.dragino.com/products/lora/item/102-lora-shield.html "Dragino's product page")
+[Dragino LoRa Shield](http://www.dragino.com/products/lora/item/102-lora-shield.html "Dragino's product page")
 
 ## The .NET library
 
