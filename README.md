@@ -1,4 +1,4 @@
-# Dragino LoRa (GPS) .NET Library
+# .NET Library for the Dragino LoRa Extension Boards
 A Windows IoT Core library for the Dragino LoRa expansion boards
 
 ***NOTE: This is a work in progress.***
