@@ -8,14 +8,14 @@
 
   <Identity
     Name="a7ef0cda-b085-4e96-b9f6-f0373e6e8e2b"
-    Publisher="CN=matti"
+    Publisher="CN=Mattias"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="a7ef0cda-b085-4e96-b9f6-f0373e6e8e2b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Dragino.Lora.Demo.P2P.Sender</DisplayName>
-    <PublisherDisplayName>matti</PublisherDisplayName>
+    <PublisherDisplayName>Mattias</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

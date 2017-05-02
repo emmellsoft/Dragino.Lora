@@ -4,7 +4,7 @@ using Dragino.Gps.Messages;
 
 namespace Dragino.Gps
 {
-    public interface IGpsManager : IPositionProvider, IDisposable
+    public interface IGpsManager : IPositionProvider
     {
         /// <summary>
         /// Event fired when a standard GPS message arrives.

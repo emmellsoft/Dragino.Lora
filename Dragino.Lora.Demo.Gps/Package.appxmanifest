@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="37dcf56b-9fbb-4ee8-99f9-9e0d9c7f215a"
+    Name="44185ed0-d933-4ce9-9491-c74f6f3f8fd6"
     Publisher="CN=Mattias"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="37dcf56b-9fbb-4ee8-99f9-9e0d9c7f215a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="44185ed0-d933-4ce9-9491-c74f6f3f8fd6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Dragino.Lora.Demo.P2P.Receiver</DisplayName>
+    <DisplayName>Dragino.Lora.Demo.Gps</DisplayName>
     <PublisherDisplayName>Mattias</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -30,12 +30,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Dragino.Lora.Demo.P2P.Receiver.App">
+      EntryPoint="Dragino.Lora.Demo.Gps.App">
       <uap:VisualElements
-        DisplayName="Dragino.Lora.Demo.P2P.Receiver"
+        DisplayName="Dragino.Lora.Demo.Gps"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Dragino.Lora.Demo.P2P.Receiver"
+        Description="Dragino.Lora.Demo.Gps"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
@@ -45,5 +45,10 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <DeviceCapability Name="serialcommunication">
+      <Device Id="any">
+        <Function Type="name:serialPort" />
+      </Device>
+    </DeviceCapability>
   </Capabilities>
 </Package>

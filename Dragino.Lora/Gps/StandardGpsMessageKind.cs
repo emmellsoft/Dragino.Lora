@@ -1,5 +1,8 @@
 ﻿namespace Dragino.Gps
 {
+    /// <summary>
+    /// The various standard message kinds.
+    /// </summary>
     public enum StandardGpsMessageKind
     {
         /// <summary>

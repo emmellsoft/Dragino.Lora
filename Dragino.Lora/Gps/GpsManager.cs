@@ -10,7 +10,7 @@ namespace Dragino.Gps
     /// <summary>
     /// High level GPS manager to simplify usage.
     /// </summary>
-    internal class GpsManager : IGpsManager, IPositionProvider
+    internal class GpsManager : IGpsManager
     {
         private readonly SerialDevice _serialDevice;
         private readonly GpsMessageHandler _gpsMessageHandler;

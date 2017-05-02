@@ -1876,13 +1876,6 @@
             "rid": "win8-aot"
           }
         }
-      },
-      "Dragino.Lora/1.0.0": {
-        "type": "project",
-        "framework": "UAP,Version=v10.0",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
-        }
       }
     },
     "UAP,Version=v10.0/win10-arm": {
@@ -3626,13 +3619,6 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "Dragino.Lora/1.0.0": {
-        "type": "project",
-        "framework": "UAP,Version=v10.0",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
-        }
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
@@ -5332,13 +5318,6 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "Dragino.Lora/1.0.0": {
-        "type": "project",
-        "framework": "UAP,Version=v10.0",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
         }
       }
     },
@@ -7092,13 +7071,6 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "Dragino.Lora/1.0.0": {
-        "type": "project",
-        "framework": "UAP,Version=v10.0",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
-        }
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
@@ -8798,13 +8770,6 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "Dragino.Lora/1.0.0": {
-        "type": "project",
-        "framework": "UAP,Version=v10.0",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
         }
       }
     },
@@ -10558,13 +10523,6 @@
         "runtime": {
           "lib/netcore50/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "Dragino.Lora/1.0.0": {
-        "type": "project",
-        "framework": "UAP,Version=v10.0",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
-        }
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
@@ -12264,13 +12222,6 @@
         },
         "runtime": {
           "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll": {}
-        }
-      },
-      "Dragino.Lora/1.0.0": {
-        "type": "project",
-        "framework": "UAP,Version=v10.0",
-        "dependencies": {
-          "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"
         }
       }
     }
@@ -15650,11 +15601,6 @@
         "runtime.json",
         "runtimes/win8-aot/lib/netcore50/System.Xml.XmlSerializer.dll"
       ]
-    },
-    "Dragino.Lora/1.0.0": {
-      "type": "project",
-      "path": "../Dragino.Lora/project.json",
-      "msbuildProject": "../Dragino.Lora/Dragino.Lora.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -15664,24 +15610,15 @@
     "UAP,Version=v10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\mattias\\.nuget\\packages\\": {}
+    "C:\\Users\\Mattias\\.nuget\\packages\\": {}
   },
   "project": {
     "restore": {
-      "projectUniqueName": "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora.Demo.Gateway\\Dragino.Lora.Demo.Gateway.csproj",
+      "projectUniqueName": "C:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora.Demo.Gateway\\Dragino.Lora.Demo.Gateway.csproj",
       "projectName": "Dragino.Lora.Demo.Gateway",
-      "projectPath": "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora.Demo.Gateway\\Dragino.Lora.Demo.Gateway.csproj",
-      "projectJsonPath": "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora.Demo.Gateway\\project.json",
-      "projectStyle": "ProjectJson",
-      "frameworks": {
-        "uap10.0": {
-          "projectReferences": {
-            "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\Dragino.Lora.csproj": {
-              "projectPath": "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\Dragino.Lora.csproj"
-            }
-          }
-        }
-      }
+      "projectPath": "C:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora.Demo.Gateway\\Dragino.Lora.Demo.Gateway.csproj",
+      "projectJsonPath": "C:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora.Demo.Gateway\\project.json",
+      "projectStyle": "ProjectJson"
     },
     "dependencies": {
       "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0"

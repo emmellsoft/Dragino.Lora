@@ -6,14 +6,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity Name="3d5ad185-c658-48cf-9de8-5c34b98da9e3"
-            Publisher="CN=matti"
+            Publisher="CN=Mattias"
             Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="3d5ad185-c658-48cf-9de8-5c34b98da9e3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Dragino.Lora.Tests</DisplayName>
-    <PublisherDisplayName>matti</PublisherDisplayName>
+    <PublisherDisplayName>Mattias</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   

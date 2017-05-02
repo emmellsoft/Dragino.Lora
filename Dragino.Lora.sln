@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dragino.Lora", "Dragino.Lora\Dragino.Lora.csproj", "{B01A9146-6B59-457E-8D53-B2FAFEA99F73}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dragino.Lora.Demo.P2P.Sender", "Dragino.Lora.Demo.P2P.Sender\Dragino.Lora.Demo.P2P.Sender.csproj", "{590F3921-B181-470B-BAC5-84F81733567C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dragino.Lora.Demo.P2P.Receiver", "Dragino.Lora.Demo.P2P.Receiver\Dragino.Lora.Demo.P2P.Receiver.csproj", "{B1A30631-2F38-4D0B-A776-3C94C9DB08E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dragino.Lora.Demo.Gps", "Dragino.Lora.Demo.Gps\Dragino.Lora.Demo.Gps.csproj", "{2603DC0C-22C0-4908-B15B-858B1291FDF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +141,26 @@ Global
 		{B1A30631-2F38-4D0B-A776-3C94C9DB08E4}.Release|x86.ActiveCfg = Release|x86
 		{B1A30631-2F38-4D0B-A776-3C94C9DB08E4}.Release|x86.Build.0 = Release|x86
 		{B1A30631-2F38-4D0B-A776-3C94C9DB08E4}.Release|x86.Deploy.0 = Release|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|ARM.ActiveCfg = Debug|ARM
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|ARM.Build.0 = Debug|ARM
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|ARM.Deploy.0 = Debug|ARM
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|x64.ActiveCfg = Debug|x64
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|x64.Build.0 = Debug|x64
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|x64.Deploy.0 = Debug|x64
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|x86.ActiveCfg = Debug|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|x86.Build.0 = Debug|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Debug|x86.Deploy.0 = Debug|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|Any CPU.ActiveCfg = Release|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|ARM.ActiveCfg = Release|ARM
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|ARM.Build.0 = Release|ARM
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|ARM.Deploy.0 = Release|ARM
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|x64.ActiveCfg = Release|x64
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|x64.Build.0 = Release|x64
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|x64.Deploy.0 = Release|x64
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|x86.ActiveCfg = Release|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|x86.Build.0 = Release|x86
+		{2603DC0C-22C0-4908-B15B-858B1291FDF0}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,13 +15,11 @@ using Dragino.Support;
 namespace Dragino.Lora.Demo.Gateway
 {
     // *********************************************************************************************
-    // YOUR EDIT IS REQUIRED HERE!
-    //
     // For the GPS manager to work (if you have a GPS chip on your Dragino board),
     // the serial communication must be allowed in the application.
     //
     // To do this in a new application you need to open the "Package.appxmanifest" file manually
-    // (right-click it in the Solution Explorer and select "View Code" or select it and press F7)
+    // (right-click it in the Solution Explorer and select "View Code" - or - select it and press F7)
     // and add the following section to the <Capabilities> node:
     //
     //    <DeviceCapability Name="serialcommunication">
@@ -39,13 +37,9 @@ namespace Dragino.Lora.Demo.Gateway
         private static readonly LoraWanGatewaySettings _gatewaySettings = LoraWanGatewaySettings.TheThingsNetwork.Europe868;
         // *********************************************************************************************
 
-        private MapIcon _mapIcon;
-
         public MainPage()
         {
             InitializeComponent();
-
-            WorldMap.ZoomLevel = 10;
 
             Task.Run(async () => await MainLoop()).ConfigureAwait(false);
         }
@@ -145,7 +139,7 @@ namespace Dragino.Lora.Demo.Gateway
                     positionProvider);
 
                 // Loop forever and send status to the LoRaWAN network periodically:
-                while (true)
+                while (true) // TODO: Use timer instead!
                 {
                     await loraWanGateway.SendStatus().ConfigureAwait(false);
 
@@ -166,59 +160,9 @@ namespace Dragino.Lora.Demo.Gateway
             WriteLog("Message Received: " + message);
         }
 
-        private async void GpsManagerPositionDataAsync(object sender, PositionDataEventArgs e)
+        private void GpsManagerPositionDataAsync(object sender, PositionDataEventArgs e)
         {
             WriteLog("GPS: " + e.Position);
-            await UpdateMapPoint(e.Position).ConfigureAwait(false);
-        }
-
-        private async Task UpdateMapPoint(PositionData positionData)
-        {
-            if (positionData == null)
-            {
-                return;
-            }
-
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    if (!positionData.Latitude.HasValue ||
-                        !positionData.Longitude.HasValue)
-                    {
-                        WorldMap.MapElements.Clear();
-                        _mapIcon = null;
-                        return;
-                    }
-
-                    var geoposition = new BasicGeoposition
-                    {
-                        Latitude = positionData.Latitude.Value,
-                        Longitude = positionData.Longitude.Value
-                    };
-
-                    var geopoint = new Geopoint(geoposition);
-
-                    if (_mapIcon == null)
-                    {
-                        _mapIcon = new MapIcon
-                        {
-                            Location = geopoint,
-                            NormalizedAnchorPoint = new Point(0.5, 0.5),
-                            Title = "You are here!"
-                        };
-
-                        WorldMap.MapElements.Add(_mapIcon);
-
-                        WorldMap.Center = geopoint;
-                    }
-                    else
-                    {
-                        _mapIcon.Location = geopoint;
-                    }
-
-                    Debug.WriteLine("WorldMap.ZoomLevel=" + WorldMap.ZoomLevel);
-                });
         }
 
         private void WriteLog(string text)

@@ -15610,14 +15610,14 @@
     "UAP,Version=v10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\mattias\\.nuget\\packages\\": {}
+    "C:\\Users\\Mattias\\.nuget\\packages\\": {}
   },
   "project": {
     "restore": {
-      "projectUniqueName": "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\Dragino.Lora.csproj",
+      "projectUniqueName": "C:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\Dragino.Lora.csproj",
       "projectName": "Dragino.Lora",
-      "projectPath": "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\Dragino.Lora.csproj",
-      "projectJsonPath": "D:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\project.json",
+      "projectPath": "C:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\Dragino.Lora.csproj",
+      "projectJsonPath": "C:\\Projects\\GitHub\\Emmellsoft\\Dragino.Lora\\Dragino.Lora\\project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {
