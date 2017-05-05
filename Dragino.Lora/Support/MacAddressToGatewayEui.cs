@@ -8,6 +8,9 @@ using Dragino.Radio.LoraWan;
 
 namespace Dragino.Support
 {
+    /// <summary>
+    /// Helper class that gets the MAC address of a Windows 10 IoT Core device and turn it into a GatewayEui.
+    /// </summary>
     public static class MacAddressToGatewayEui
     {
         public static async Task<GatewayEui> GetGatewayEui(NetworkCredential piUser)
