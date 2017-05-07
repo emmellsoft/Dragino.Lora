@@ -11,13 +11,13 @@ namespace Dragino.Lora.Demo.P2P.Sender
     {
         private readonly TimeSpan _sendInterval = TimeSpan.FromSeconds(5);
         private ITransceiver _transceiver;
-        private Timer _timer;
+        private Timer _sendMessageTimer;
         private byte _messageCounter;
 
         private static TransceiverSettings GetRadioSettings()
         {
             // *********************************************************************************************
-            // YOUR EDIT IS REQUIRED HERE!
+            // #1/2. YOUR EDITING IS REQUIRED HERE!
             // 
             // Choose transeiver settings:
             // *********************************************************************************************
@@ -28,7 +28,7 @@ namespace Dragino.Lora.Demo.P2P.Sender
         private static TransceiverPinSettings GetPinSettings()
         {
             // *********************************************************************************************
-            // YOUR EDIT IS REQUIRED HERE!
+            // #2/2. YOUR EDITING IS REQUIRED HERE!
             // 
             // Depending on the kind of Dragino expansion board you have, uncomment the right line below!
             // *********************************************************************************************
@@ -56,7 +56,7 @@ namespace Dragino.Lora.Demo.P2P.Sender
             if (initSuccessful)
             {
                 WriteLog("The LoRa transceiver is initiated successfully.");
-                _timer = new Timer(TimerTick, null, TimeSpan.Zero, _sendInterval);
+                _sendMessageTimer = new Timer(SendMessageTimerTick, null, TimeSpan.Zero, _sendInterval);
             }
             else
             {
@@ -81,17 +81,19 @@ namespace Dragino.Lora.Demo.P2P.Sender
             }
         }
 
-        private async void TimerTick(object state)
+        private async void SendMessageTimerTick(object state)
         {
-            // Just a random message:
+            // Create a random message (change this suiting your needs!):
             _messageCounter++;
             byte[] message = { 0x55, 0xFF, 0x00, 0xAA, _messageCounter };
 
+            // Send it!
             await SendMessage(_transceiver, message, TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         }
 
         private void TransceiverOnMessageReceived(object sender, ReceivedMessageEventArgs e)
         {
+            // A message is received -- handle it accordingly!
             ReceivedMessage message = e.Message;
 
             WriteLog("Message Received: " + message);
@@ -135,6 +137,7 @@ namespace Dragino.Lora.Demo.P2P.Sender
 
         private void WriteLog(string text)
         {
+            // Simply writing to the Output window:
             Debug.WriteLine(text);
         }
     }

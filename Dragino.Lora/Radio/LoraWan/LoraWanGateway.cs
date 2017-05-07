@@ -133,11 +133,13 @@ namespace Dragino.Radio.LoraWan
                 receivedCount,
                 _transceiver.ReceivedOkCount,
                 _forwardedFrameCount,
-                100, // TODO!
-                0,   // TODO!
-                0);  // TODO!
+                100, // Let's make it easy and say everything's fine!
+                0,   // This is just a packet-forwarder; no messages will be transmitted.
+                0);  // This is just a packet-forwarder; no messages will be transmitted.
 
             JsonObject jsonData = JsonSerializer.ToJson(statMessage);
+
+            Debug.WriteLine("Sending JSON: " + jsonData);
 
             return PushData(jsonData);
         }
@@ -163,9 +165,9 @@ namespace Dragino.Radio.LoraWan
                 message.UtcTimestamp,
                 GetElapsedMicroSeconds(),
                 _gatewaySettings.Frequency / 1000000.0,
-                0, // TODO!
-                0, // TODO!
-                1, // TODO!
+                0,
+                0,
+                1,
                 "LORA",
                 _datr,
                 _codr,

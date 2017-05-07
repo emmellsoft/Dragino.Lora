@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.Devices.Geolocation;
-using Windows.Foundation;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Maps;
 using Dragino.Gps;
 using Dragino.Radio;
 using Dragino.Radio.LoraWan;
@@ -32,55 +28,65 @@ namespace Dragino.Lora.Demo.Gateway
     public sealed partial class MainPage : Page
     {
         // *********************************************************************************************
-        // YOUR EDIT IS REQUIRED HERE!
+        // #1/4. YOUR EDITING IS REQUIRED HERE!
         // Choose correct gateway settings:
         private static readonly LoraWanGatewaySettings _gatewaySettings = LoraWanGatewaySettings.TheThingsNetwork.Europe868;
         // *********************************************************************************************
+
+        private readonly ILoraWanGateway _loraWanGateway;
+        private readonly TimeSpan _sendStatusInterval = TimeSpan.FromSeconds(30);
+        private readonly Timer _sendStatusTimer;
 
         public MainPage()
         {
             InitializeComponent();
 
-            Task.Run(async () => await MainLoop()).ConfigureAwait(false);
+            _loraWanGateway = Task.Run(CreateGateway).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            if (_loraWanGateway != null)
+            {
+                WriteLog("The LoRaWAN Gateway is created successfully.");
+                _sendStatusTimer = new Timer(SendStatusTimerTick, null, TimeSpan.Zero, _sendStatusInterval);
+            }
         }
 
-        private static Task<ITransceiver> CreateTransceiver(LoraWanGatewaySettings settings)
+        private static TransceiverPinSettings GetTransceiverPinSettings()
         {
             // *********************************************************************************************
-            // YOUR EDIT IS REQUIRED HERE!
+            // #2/4. YOUR EDITING IS REQUIRED HERE!
             // 
             // Depending on the kind of Dragino expansion board you have, uncomment the right line below!
             // *********************************************************************************************
 
 
             // EITHER: I have a Dragino LoRa/GPS HAT attached on my Raspberry Pi:
-            return TransceiverFactory.Create(settings, TransceiverPinSettings.DraginoLoraGpsHat);
+            return TransceiverPinSettings.DraginoLoraGpsHat;
 
 
             // OR: I have a Dragino LoRa (GPS) Arduino Shield connected via wires to the GPIO on my Raspberry Pi:
-            //return TransceiverFactory.Create(settings, new TransceiverPinSettings(
+            //return new TransceiverPinSettings(
             //    25,  // ChipSelect
             //    17,  // Reset
             //    4,   // Dio0
             //    23,  // Dio1 (Optional -- you may use null)
-            //    24)); // Dio2 (Optional -- you may use null)
+            //    24); // Dio2 (Optional -- you may use null)
         }
 
-        private static Task<IGpsManager> CreateGpsManager()
+        private static bool UseGpsManager()
         {
             // *********************************************************************************************
-            // YOUR EDIT IS REQUIRED HERE!
+            // #3/4. YOUR EDITING IS REQUIRED HERE!
             // 
             // Depending on the kind of Dragino expansion board you have, uncomment the right line below!
             // *********************************************************************************************
 
 
             // EITHER: I am using an Dragino extension board having a GPS chip:
-            return GpsManagerFactory.Create(GpsManagerSettings.Default);
+            return true;
 
 
             // OR: There is no GPS chip on my Dragino extension board:
-            //return Task.FromResult<IGpsManager>(null);
+            //return false;
         }
 
         /// <summary>
@@ -90,41 +96,55 @@ namespace Dragino.Lora.Demo.Gateway
         private static Task<GatewayEui> GetGatewayEui()
         {
             // *********************************************************************************************
-            // YOUR EDIT IS REQUIRED HERE!
+            // #4/4. YOUR EDITING IS REQUIRED HERE!
             // 
             // Either use a hardcoded EUI or the MAC address of the device (e.g. Raspberry Pi)!
             // *********************************************************************************************
-
             // EITHER: Use the MAC address:
             var piUser = new System.Net.NetworkCredential("Administrator", "p@ssw0rd"); // <-- Edit the administrator password for your Raspberry Pi here!
             return MacAddressToGatewayEui.GetGatewayEui(piUser);
 
 
-            // OR: Use a hard coded EUI:
+            //// OR: Use a hard coded EUI:
             //return Task.FromResult(new GatewayEui("0123456789ABCDEF"));
         }
 
-        private async Task MainLoop()
+        private async Task<ILoraWanGateway> CreateGateway()
         {
             try
             {
                 // Create the transceiver:
-                ITransceiver transceiver = await CreateTransceiver(_gatewaySettings).ConfigureAwait(false);
+                TransceiverPinSettings pinSettings = GetTransceiverPinSettings();
+                ITransceiver transceiver = await TransceiverFactory.Create(_gatewaySettings, pinSettings).ConfigureAwait(false);
                 transceiver.OnMessageReceived += TransceiverOnMessageReceived;
+
 
                 // Create the GPS manager (if existing):
                 IPositionProvider positionProvider;
-                IGpsManager gpsManager = await CreateGpsManager().ConfigureAwait(false);
-                if (gpsManager != null)
+                if (UseGpsManager())
                 {
+                    // Create the GPS manager:
+                    IGpsManager gpsManager = await GpsManagerFactory.Create(GpsManagerSettings.Default).ConfigureAwait(false);
+
+                    // Hook up the event fired when a new position is recorded:
                     gpsManager.OnPositionData += GpsManagerPositionDataAsync;
+
+                    // Start the GPS:
                     await gpsManager.WakeUp().ConfigureAwait(false);
+
+                    // Make the Gateway use the GpsManager as position provider
+                    // (sending the actual coordinates in its status messages):
                     positionProvider = gpsManager;
                 }
                 else
                 {
+                    // Make the Gateway use "no position" as its coordinate:
                     positionProvider = FixedPositionProvider.NoPositionProvider;
+
+                    // ...or give it a fixed coordinate:
+                    //positionProvider = new FixedPositionProvider(new SimplePosition(55.597382, 12.95889, 18.4));
                 }
+
 
                 // Get the gateway EUI:
                 GatewayEui gatewayEui = await GetGatewayEui().ConfigureAwait(false);
@@ -132,41 +152,41 @@ namespace Dragino.Lora.Demo.Gateway
 
 
                 // Create the LoRa WAN gateway handler:
-                ILoraWanGateway loraWanGateway = LoraWanGatewayFactory.Create(
+                return LoraWanGatewayFactory.Create(
                     transceiver,
                     _gatewaySettings,
                     gatewayEui,
                     positionProvider);
-
-                // Loop forever and send status to the LoRaWAN network periodically:
-                while (true) // TODO: Use timer instead!
-                {
-                    await loraWanGateway.SendStatus().ConfigureAwait(false);
-
-                    await Task.Delay(TimeSpan.FromSeconds(30));
-                }
             }
             catch (Exception exception)
             {
-                WriteLog("The demo crashed:\r\n" + exception.Message);
+                WriteLog("Failed creating the LoRaWAN gateway:\r\n" + exception.Message);
                 Debugger.Break();
+                return null;
             }
+        }
+
+        private async void SendStatusTimerTick(object state)
+        {
+            // Send the current status of the gateway to the network backend.
+            await _loraWanGateway.SendStatus().ConfigureAwait(false);
         }
 
         private void TransceiverOnMessageReceived(object sender, ReceivedMessageEventArgs e)
         {
-            ReceivedMessage message = e.Message;
-
-            WriteLog("Message Received: " + message);
+            // Here you can handle a received message as you like:
+            WriteLog("Message Received: " + e.Message);
         }
 
         private void GpsManagerPositionDataAsync(object sender, PositionDataEventArgs e)
         {
+            // Here you can handle a newly recorded geographical position as you please:
             WriteLog("GPS: " + e.Position);
         }
 
         private void WriteLog(string text)
         {
+            // Simply writing to the Output window:
             Debug.WriteLine(text);
         }
     }

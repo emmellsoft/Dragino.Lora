@@ -8,7 +8,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Dragino.Gps;
-using Dragino.Gps.Messages.Standard;
 
 namespace Dragino.Lora.Demo.Gps
 {
@@ -149,13 +148,12 @@ namespace Dragino.Lora.Demo.Gps
                     {
                         _mapIcon.Location = geopoint;
                     }
-
-                    Debug.WriteLine("WorldMap.ZoomLevel=" + WorldMap.ZoomLevel); // TODO: Remove!
                 });
         }
 
         private void WriteLog(string text)
         {
+            // Simply writing to the Output window:
             Debug.WriteLine(text);
         }
     }

@@ -26,7 +26,7 @@ namespace Dragino.Lora.Demo.P2P.Receiver
         private static TransceiverSettings GetRadioSettings()
         {
             // *********************************************************************************************
-            // YOUR EDIT IS REQUIRED HERE!
+            // #1/2. YOUR EDITING IS REQUIRED HERE!
             // 
             // Choose transeiver settings:
             // *********************************************************************************************
@@ -37,7 +37,7 @@ namespace Dragino.Lora.Demo.P2P.Receiver
         private static TransceiverPinSettings GetPinSettings()
         {
             // *********************************************************************************************
-            // YOUR EDIT IS REQUIRED HERE!
+            // #2/2. YOUR EDITING IS REQUIRED HERE!
             // 
             // Depending on the kind of Dragino expansion board you have, uncomment the right line below!
             // *********************************************************************************************
@@ -75,9 +75,12 @@ namespace Dragino.Lora.Demo.P2P.Receiver
 
         private async void TransceiverOnMessageReceived(object sender, ReceivedMessageEventArgs e)
         {
+            // A message is received -- handle it accordingly!
             ReceivedMessage message = e.Message;
 
             WriteLog("Message Received: " + message);
+
+            // In this example project, the message data is reversed and sent back.
 
             // Take the message received, reverse the bytes...
             byte[] response = message.Buffer.Reverse().ToArray();
@@ -123,6 +126,7 @@ namespace Dragino.Lora.Demo.P2P.Receiver
 
         private void WriteLog(string text)
         {
+            // Simply writing to the Output window:
             Debug.WriteLine(text);
         }
     }
