@@ -17,6 +17,8 @@ The library is developed and tested on the following expansion boards:
 
 [A LoRaWAN "The Things Network" Gateway for Windows IoT Core](https://www.hackster.io/laserbrain/a-lorawan-the-things-network-gateway-for-windows-iot-core-441210 "Project on hackster.io")
 
+*More to come...*
+
 # The .NET library
 
 ## Radio
