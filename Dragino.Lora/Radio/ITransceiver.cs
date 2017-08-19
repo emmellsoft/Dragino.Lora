@@ -1,29 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Dragino.Support;
 
 namespace Dragino.Radio
 {
     public interface ITransceiver : IDisposable
     {
-        TransceiverSettings Settings { get; }
-
-        /// <summary>
-        /// Low-level access to the transmit chip registers.
-        /// </summary>
-        RegisterManager RegisterManager { get; }
-
-        /// <summary>
-        /// Low-level access to the SPI communication.
-        /// </summary>
-        ISpiComm SpiComm { get; }
-
-        /// <summary>
-        /// Low-level access to the GPIO pin.
-        /// </summary>
-        IPins Pins { get; }
-
         /// <summary>
         /// The maximum length of a message to be transmitted.
         /// </summary>

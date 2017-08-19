@@ -9,7 +9,7 @@ using Windows.Storage.Streams;
 
 namespace Dragino.Radio.LoraWan.Network
 {
-    internal class LoraNetworkClient : IDisposable
+    internal class LoraNetworkClient : ILoraNetworkClient
     {
         private readonly EndpointPair _endpointPair;
         private readonly DatagramSocket _udp;
@@ -33,16 +33,15 @@ namespace Dragino.Radio.LoraWan.Network
             _udp.Dispose();
         }
         
-        public async Task SendMessage(IBuffer buffer)
+        public async Task SendMessage(byte[] buffer)
         {
             try
             {
                 using (IOutputStream outputStream = await _udp.GetOutputStreamAsync(_endpointPair))
                 {
-                    byte[] bytes = buffer.ToArray();
-                    Debug.WriteLine($"UDP sending (to \"{_endpointPair.RemoteHostName}\"): {string.Join(", ", bytes.Select(x => x.ToString("X2")))} ({bytes.Length} byte(s)).");
+                    Debug.WriteLine($"UDP sending (to \"{_endpointPair.RemoteHostName}\"): {string.Join(", ", buffer.Select(x => x.ToString("X2")))} ({buffer.Length} byte(s)).");
 
-                    await outputStream.WriteAsync(buffer);
+                    await outputStream.WriteAsync(buffer.AsBuffer());
                 }
             }
             catch (Exception exception)

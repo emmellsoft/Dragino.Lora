@@ -109,8 +109,12 @@
   <ItemGroup>
     <Compile Include="Radio\BandWidth.cs" />
     <Compile Include="Radio\CodingRate.cs" />
+    <Compile Include="Radio\IHardwareTransceiver.cs" />
     <Compile Include="Radio\IPins.cs" />
     <Compile Include="Radio\LoraTransceiver.cs" />
+    <Compile Include="Radio\LoraWan\LoraWanNode.cs" />
+    <Compile Include="Radio\LoraWan\Network\ILoraNetworkClient.cs" />
+    <Compile Include="Radio\LoraWan\Network\NetworkMessage.cs" />
     <Compile Include="Radio\Pins.cs" />
     <Compile Include="Radio\RadioModemKind.cs" />
     <Compile Include="Support\CrcCalculator.cs" />
@@ -168,7 +172,7 @@
     <Compile Include="Radio\LoraWan\Network\Messages\RxpkMessage.cs" />
     <Compile Include="Radio\LoraWan\Network\Messages\StatMessage.cs" />
     <Compile Include="Radio\LoraWan\Network\JsonSerializer.cs" />
-    <Compile Include="Radio\LoraWan\Network\SendMessageKind.cs" />
+    <Compile Include="Radio\LoraWan\Network\NetworkMessageKind.cs" />
     <Compile Include="Radio\Transceiver.cs" />
     <Compile Include="Radio\TransceiverFactory.cs" />
     <Compile Include="Radio\TransceiverSettings.cs" />

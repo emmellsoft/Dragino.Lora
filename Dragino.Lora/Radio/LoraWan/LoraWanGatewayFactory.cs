@@ -1,4 +1,7 @@
-﻿using Dragino.Gps;
+﻿using System.Linq;
+using Windows.Networking;
+using Dragino.Gps;
+using Dragino.Radio.LoraWan.Network;
 
 namespace Dragino.Radio.LoraWan
 {
@@ -25,6 +28,7 @@ namespace Dragino.Radio.LoraWan
                 transceiver,
                 gatewaySettings,
                 gatewayEui,
+                gatewaySettings.Hosts.Select(x => new LoraNetworkClient(new HostName(x), gatewaySettings.Port)).OfType<ILoraNetworkClient>().ToArray(),
                 positionProvider ?? FixedPositionProvider.NoPositionProvider);
         }
     }

@@ -2,9 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Data.Json;
-using Windows.Networking;
-using Windows.Storage.Streams;
 using Dragino.Gps;
 using Dragino.Radio.LoraWan.Network;
 using Dragino.Radio.LoraWan.Network.Messages;
@@ -16,9 +13,9 @@ namespace Dragino.Radio.LoraWan
         private static readonly double _ticksScale = Stopwatch.Frequency / 1000000.0;
 
         private readonly ITransceiver _transceiver;
-        private readonly LoraWanGatewaySettings _gatewaySettings;
+        private readonly TransceiverSettings _transceiverSettings;
         private readonly IPositionProvider _positionProvider;
-        private readonly LoraNetworkClient[] _loraNetworkClients;
+        private readonly ILoraNetworkClient[] _loraNetworkClients;
         private readonly MessageComposer _messageComposer;
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private readonly string _datr;
@@ -28,18 +25,17 @@ namespace Dragino.Radio.LoraWan
 
         public LoraWanGateway(
             ITransceiver transceiver,
-            LoraWanGatewaySettings gatewaySettings,
+            TransceiverSettings transceiverSettings,
             GatewayEui gatewayEui,
+            ILoraNetworkClient[] loraNetworkClients,
             IPositionProvider positionProvider)
         {
             _stopwatch.Start();
 
             _transceiver = transceiver;
-            _gatewaySettings = gatewaySettings;
+            _transceiverSettings = transceiverSettings;
             _positionProvider = positionProvider;
-            _loraNetworkClients = gatewaySettings.Hosts
-                .Select(x => new LoraNetworkClient(new HostName(x), 1700))
-                .ToArray();
+            _loraNetworkClients = loraNetworkClients;
 
             _messageComposer = new MessageComposer(gatewayEui);
 
@@ -51,7 +47,7 @@ namespace Dragino.Radio.LoraWan
 
         private string GetSF()
         {
-            switch (_gatewaySettings.SpreadingFactor)
+            switch (_transceiverSettings.SpreadingFactor)
             {
                 case SpreadingFactor.SF7:
                     return "SF7";
@@ -66,13 +62,13 @@ namespace Dragino.Radio.LoraWan
                 case SpreadingFactor.SF12:
                     return "SF12";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(_gatewaySettings.SpreadingFactor), "Unsupported spreading factor!");
+                    throw new ArgumentOutOfRangeException(nameof(_transceiverSettings.SpreadingFactor), "Unsupported spreading factor!");
             }
         }
 
         private string GetBW()
         {
-            switch (_gatewaySettings.BandWidth)
+            switch (_transceiverSettings.BandWidth)
             {
                 case BandWidth.BandWidth_125_00_kHz:
                     return "BW125";
@@ -81,13 +77,13 @@ namespace Dragino.Radio.LoraWan
                 case BandWidth.BandWidth_500_00_kHz:
                     return "BW500";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(_gatewaySettings.BandWidth), "Unsupported bandwidth!");
+                    throw new ArgumentOutOfRangeException(nameof(_transceiverSettings.BandWidth), "Unsupported bandwidth!");
             }
         }
 
         private string GetCodr()
         {
-            switch (_gatewaySettings.CodingRate)
+            switch (_transceiverSettings.CodingRate)
             {
                 case CodingRate.FourOfFive:
                     return "4/5";
@@ -98,7 +94,7 @@ namespace Dragino.Radio.LoraWan
                 case CodingRate.FourOfEight:
                     return "4/8";
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(_gatewaySettings.CodingRate), "Unsupported coding rate!");
+                    throw new ArgumentOutOfRangeException(nameof(_transceiverSettings.CodingRate), "Unsupported coding rate!");
             }
         }
 
@@ -137,16 +133,16 @@ namespace Dragino.Radio.LoraWan
                 0,   // This is just a packet-forwarder; no messages will be transmitted.
                 0);  // This is just a packet-forwarder; no messages will be transmitted.
 
-            JsonObject jsonData = JsonSerializer.ToJson(statMessage);
+            string jsonData = JsonSerializer.ToJson(statMessage);
 
             Debug.WriteLine("Sending JSON: " + jsonData);
 
             return PushData(jsonData);
         }
 
-        private Task PushData(JsonObject jsonData)
+        private Task PushData(string jsonData)
         {
-            IBuffer buffer = _messageComposer.ComposeMessage(jsonData, SendMessageKind.PushData);
+            byte[] buffer = _messageComposer.ComposeMessage(jsonData, NetworkMessageKind.PushData);
 
             return Task.WhenAll(_loraNetworkClients.Select(x => x.SendMessage(buffer)));
         }
@@ -164,7 +160,7 @@ namespace Dragino.Radio.LoraWan
             var rxpkMessage = new RxpkMessage(
                 message.UtcTimestamp,
                 GetElapsedMicroSeconds(),
-                _gatewaySettings.Frequency / 1000000.0,
+                _transceiverSettings.Frequency / 1000000.0,
                 0,
                 0,
                 1,
@@ -176,7 +172,7 @@ namespace Dragino.Radio.LoraWan
                 (uint)message.Buffer.Length,
                 Convert.ToBase64String(message.Buffer));
 
-            JsonObject jsonData = JsonSerializer.ToJson(rxpkMessage);
+            string jsonData = JsonSerializer.ToJson(rxpkMessage);
 
             Debug.WriteLine("Sending JSON: " + jsonData);
 

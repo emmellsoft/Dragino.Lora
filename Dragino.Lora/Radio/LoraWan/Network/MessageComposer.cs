@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-using Windows.Data.Json;
-using Windows.Storage.Streams;
 
 namespace Dragino.Radio.LoraWan.Network
 {
@@ -19,9 +16,9 @@ namespace Dragino.Radio.LoraWan.Network
             _gatewayEui = gatewayEui;
         }
 
-        public IBuffer ComposeMessage(JsonObject data, SendMessageKind messageKind)
+        public byte[] ComposeMessage(string json, NetworkMessageKind messageKind)
         {
-            byte[] jsonData = Encoding.ASCII.GetBytes(data.Stringify());
+            byte[] jsonData = Encoding.ASCII.GetBytes(json);
 
             byte[] message = new byte[HeaderLength + jsonData.Length];
 
@@ -32,7 +29,7 @@ namespace Dragino.Radio.LoraWan.Network
             Array.Copy(_gatewayEui.Bytes, 0, message, 4, _gatewayEui.Bytes.Length);
             Array.Copy(jsonData, 0, message, HeaderLength, jsonData.Length);
 
-            return message.AsBuffer();
+            return message;
         }
     }
 }

@@ -10,7 +10,7 @@ using Dragino.Support;
 
 namespace Dragino.Radio
 {
-    internal abstract class Transceiver : ITransceiver
+    internal abstract class Transceiver : IHardwareTransceiver
     {
         private readonly SpiCommController _spiCommController;
         private bool _isDisposed;
@@ -39,7 +39,7 @@ namespace Dragino.Radio
             public TaskCompletionSource<bool> TransmissionCompletionSource { get; }
         }
 
-        public static async Task<ITransceiver> Create(SpiDevice spiDevice, TransceiverSettings settings, TransceiverPinSettings pinSettings)
+        public static async Task<IHardwareTransceiver> Create(SpiDevice spiDevice, TransceiverSettings settings, TransceiverPinSettings pinSettings)
         {
             Transceiver transceiver;
             switch (settings.RadioModem)

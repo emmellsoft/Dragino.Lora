@@ -1,6 +1,6 @@
 ﻿namespace Dragino.Radio.LoraWan.Network
 {
-    internal enum SendMessageKind : byte
+    internal enum NetworkMessageKind : byte
     {
         PushData = 0x00,
         PushAck = 0x01,

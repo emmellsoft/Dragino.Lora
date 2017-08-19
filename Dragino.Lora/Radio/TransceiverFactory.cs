@@ -6,7 +6,7 @@ namespace Dragino.Radio
 {
     public static class TransceiverFactory
     {
-        public static async Task<ITransceiver> Create(TransceiverSettings transceiverSettings, TransceiverPinSettings pinSettings)
+        public static async Task<IHardwareTransceiver> Create(TransceiverSettings transceiverSettings, TransceiverPinSettings pinSettings)
         {
             SpiDevice spiDevice = await CreateSpiDevice().ConfigureAwait(false);
 

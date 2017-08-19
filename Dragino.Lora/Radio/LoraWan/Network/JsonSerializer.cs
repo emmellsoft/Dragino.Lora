@@ -1,56 +1,52 @@
-﻿using Windows.Data.Json;
-using Dragino.Radio.LoraWan.Network.Messages;
+﻿using Dragino.Radio.LoraWan.Network.Messages;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Dragino.Radio.LoraWan.Network
 {
     internal static class JsonSerializer
     {
-        public static JsonObject ToJson(StatMessage message)
+        private class CustomDateTimeConverter : IsoDateTimeConverter
         {
-            return new JsonObject
+            public CustomDateTimeConverter(string format)
             {
-                { "stat", new JsonObject
-                    {
-                        { "time", JsonValue.CreateStringValue(message.Time.ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss' GMT'")) },
-                        { "lati", JsonValue.CreateNumberValue(message.Latitude) },
-                        { "long", JsonValue.CreateNumberValue(message.Longitude) },
-                        { "alti", JsonValue.CreateNumberValue(message.Altitude) },
-                        { "rxnb", JsonValue.CreateNumberValue(message.Rxnb) },
-                        { "rxok", JsonValue.CreateNumberValue(message.Rxok) },
-                        { "rxfw", JsonValue.CreateNumberValue(message.Rxfw) },
-                        { "ackr", JsonValue.CreateNumberValue(message.Ackr) },
-                        { "dwnb", JsonValue.CreateNumberValue(message.Dwnb) },
-                        { "txnb", JsonValue.CreateNumberValue(message.Txnb) }
-                    }
-                }
-            };
+                DateTimeFormat = format;
+            }
         }
 
-        public static JsonObject ToJson(RxpkMessage message)
+        private class StatMessageWrapper
         {
-            return new JsonObject
+            public StatMessageWrapper(StatMessage message)
             {
-                { "rxpk", new JsonArray
-                    {
-                        new JsonObject
-                        {
-                            { "time", JsonValue.CreateStringValue(message.Time.ToString("o")) },
-                            { "tmst", JsonValue.CreateNumberValue(message.Tmst) },
-                            { "freq", JsonValue.CreateNumberValue(message.Freq) },
-                            { "chan", JsonValue.CreateNumberValue(message.Chan) },
-                            { "rfch", JsonValue.CreateNumberValue(message.Rfch) },
-                            { "stat", JsonValue.CreateNumberValue(message.Stat) },
-                            { "modu", JsonValue.CreateStringValue(message.Modu) },
-                            { "datr", JsonValue.CreateStringValue(message.Datr) },
-                            { "codr", JsonValue.CreateStringValue(message.Codr) },
-                            { "rssi", JsonValue.CreateNumberValue(message.Rssi) },
-                            { "lsnr", JsonValue.CreateNumberValue(message.Lsnr) },
-                            { "size", JsonValue.CreateNumberValue(message.Size) },
-                            { "data", JsonValue.CreateStringValue(message.Data) }
-                        }
-                    }
-                }
-            };
+                Message = message;
+            }
+
+            [JsonProperty("stat")]
+            public StatMessage Message { get; }
+        }
+
+        private class RxpkMessageWrapper
+        {
+            public RxpkMessageWrapper(RxpkMessage message)
+            {
+                Messages = new[] { message };
+            }
+
+            [JsonProperty("rxpk")]
+            public RxpkMessage[] Messages { get; }
+        }
+
+        private static readonly CustomDateTimeConverter _statMessageDateTimeConverter = new CustomDateTimeConverter("yyyy'-'MM'-'dd' 'HH':'mm':'ss' GMT'");
+        private static readonly CustomDateTimeConverter _rxpkMessageDateTimeConverter = new CustomDateTimeConverter("o");
+
+        public static string ToJson(StatMessage message)
+        {
+            return JsonConvert.SerializeObject(new StatMessageWrapper(message), Formatting.None, _statMessageDateTimeConverter);
+        }
+
+        public static string ToJson(RxpkMessage message)
+        {
+            return JsonConvert.SerializeObject(new RxpkMessageWrapper(message), Formatting.None, _rxpkMessageDateTimeConverter);
         }
     }
 }

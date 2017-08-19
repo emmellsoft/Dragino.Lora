@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Dragino.Radio.LoraWan.Network.Messages
 {
@@ -44,51 +45,61 @@ namespace Dragino.Radio.LoraWan.Network.Messages
         /// <summary>
         /// UTC system time of the gateway.  The precision is one second.  The format is ISO 8601 [3] 'expanded' format.
         /// </summary>
+        [JsonProperty("time")]
         public DateTime Time { get; }
 
         /// <summary>
         /// Containing up to 5 decimal places. The latitude of the gateway's position in units of degrees North of the equator.
         /// </summary>
+        [JsonProperty("lati")]
         public double Latitude { get; }
 
         /// <summary>
         /// Containing up to 5 decimal places. The longitude of the gateway's position in units of degrees East of the prime meridian.
         /// </summary>
+        [JsonProperty("long")]
         public double Longitude { get; }
 
         /// <summary>
         /// The altitude of the gateway's position in units of metres above sea level (as defined by the United States' GPS system).
         /// </summary>
+        [JsonProperty("alti")]
         public int Altitude { get; }
 
         /// <summary>
         /// The number of radio frames received since gateway start.
         /// </summary>
+        [JsonProperty("rxnb")]
         public uint Rxnb { get; }
 
         /// <summary>
         /// The number of radio frames received with correct CRC since gateway start.
         /// </summary>
+        [JsonProperty("rxok")]
         public uint Rxok { get; }
 
         /// <summary>
         /// The number of radio frames forwarded to the gateway's network server since gateway start.
         /// </summary>
+        [JsonProperty("rxfw")]
         public uint Rxfw { get; }
 
         /// <summary>
         /// The proportion of radio frames that were forwarded to the gateway's network server and acknowledged by the server since gateway start.  The proportion is expressed as a percentage.
         /// </summary>
+        [JsonProperty("ackr")]
         public uint Ackr { get; }
 
         /// <summary>
         /// The number of radio frames received (from the network server) for transmission since gateway start.
         /// </summary>
+        [JsonProperty("dwnb")]
         public uint Dwnb { get; }
 
         /// <summary>
         /// The number of radio frames transmitted since gateway start.
         /// </summary>
+        [JsonProperty("txnb")]
         public uint Txnb { get; }
     }
 }
